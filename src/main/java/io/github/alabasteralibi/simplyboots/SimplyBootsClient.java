@@ -1,5 +1,6 @@
 package io.github.alabasteralibi.simplyboots;
 
+import io.github.alabasteralibi.simplyboots.client.BootRenderer;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;

@@ -1,4 +1,4 @@
-package io.github.alabasteralibi.simplyboots;
+package io.github.alabasteralibi.simplyboots.client;
 
 import io.github.alabasteralibi.simplyboots.items.BootItems;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
