@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -43,7 +44,7 @@ public class BlockCollisionSpliteratorMixin {
     @Inject(method = "offerBlockShape", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void test(Consumer<? super VoxelShape> action, CallbackInfoReturnable<Boolean> ci, int i, int j, int k, int l, BlockView blockView, BlockState blockState) {
         if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }
-        if (entity.getVelocity().y >= 0 || entity.isTouchingWater() || entity.isSneaking()) { return; }
+        if (entity.getVelocity().y >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER  , 0) || entity.isSneaking()) { return; }
         ItemStack boots = entity.getEquippedStack(EquipmentSlot.FEET);
         if (!boots.isIn(SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
 

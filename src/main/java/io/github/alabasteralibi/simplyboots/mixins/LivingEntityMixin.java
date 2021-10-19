@@ -2,13 +2,17 @@ package io.github.alabasteralibi.simplyboots.mixins;
 
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
+import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,22 +22,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-    LivingEntity entity = (LivingEntity) (Object) this;
+    private final LivingEntity entity = (LivingEntity) (Object) this;
+    private int lavaImmunityTicks = 0;
 
     // TODO: Add rocket boot effects, frostspark effects (speed boost on ice with no sliding)
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private void updateSpecialBootEffects(CallbackInfo ci) {
-        Item boots = entity.getEquippedStack(EquipmentSlot.FEET).getItem();
+        ItemStack boots = entity.getEquippedStack(EquipmentSlot.FEET);
 
-        // Updates fire and lava immunity
-        if (boots == SimplyBootsItems.LAVA_WADERS) {
-            if (!entity.isInLava()) {
-                entity.extinguish();
-                StatusEffectInstance entityFireResist = entity.getStatusEffect(StatusEffects.FIRE_RESISTANCE);
-                if (entityFireResist == null || entityFireResist.getDuration() < 100) {
-                    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 100, 0, false, false, true));
-                }
+        // Updates fire immunity
+        if (boots.isIn(SimplyBootsTags.FIRE_RESISTANT_BOOTS)) {
+            entity.extinguish();
+        }
+
+        // Updates lava immunity TODO: Add a HUD feature for lava immunity time
+        if (entity.isInLava() && boots.isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+            if (lavaImmunityTicks > 0) {
+                lavaImmunityTicks--;
             }
+        } else if (lavaImmunityTicks < 100) {
+            lavaImmunityTicks++;
+        }
+    }
+
+    @Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
+    private void cancelLavaAndFireDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (source == DamageSource.LAVA && lavaImmunityTicks > 0 && entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+            cir.setReturnValue(false);
+        }
+        if (source != DamageSource.LAVA && source.isFire() && entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.FIRE_RESISTANT_BOOTS)) {
+            cir.setReturnValue(false);
         }
     }
 
