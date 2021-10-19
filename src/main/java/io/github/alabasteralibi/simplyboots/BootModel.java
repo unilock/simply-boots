@@ -4,17 +4,14 @@ import io.github.alabasteralibi.simplyboots.items.BootItems;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class BootModel extends AnimatedGeoModel<BootItems.BaseBootItem>
-{
+public class BootModel extends AnimatedGeoModel<BootItems.BaseBootItem> {
     @Override
-    public Identifier getModelLocation(BootItems.BaseBootItem object)
-    {
+    public Identifier getModelLocation(BootItems.BaseBootItem object) {
         return new Identifier("simplyboots", "geo/fancy_boots.geo.json");
     }
 
     @Override
-    public Identifier getTextureLocation(BootItems.BaseBootItem object)
-    {
+    public Identifier getTextureLocation(BootItems.BaseBootItem object) {
         return new Identifier("simplyboots", "textures/armor/" + object.toString() + ".png");
     }
 

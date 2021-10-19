@@ -31,13 +31,13 @@ public class ArmorItemMixin {
             locals = LocalCapture.CAPTURE_FAILHARD)
     private void addBootAttributes(ArmorMaterial material, EquipmentSlot slot, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
         UUID uUID = MODIFIERS[slot.getEntitySlotId()];
-        if ((ArmorItem)(Object)this instanceof BootItems.BaseBootItem) {
+        if ((ArmorItem) (Object) this instanceof BootItems.BaseBootItem) {
             builder.put(SimplyBootsAttributes.GENERIC_STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.4, EntityAttributeModifier.Operation.ADDITION));
         }
-        if ((ArmorItem)(Object)this instanceof BootItems.SpeedyBootItem) {
+        if ((ArmorItem) (Object) this instanceof BootItems.SpeedyBootItem) {
             builder.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.075, EntityAttributeModifier.Operation.MULTIPLY_BASE));
         }
-        if ((ArmorItem)(Object)this instanceof BootItems.ExtraSpeedyBootItem) {
+        if ((ArmorItem) (Object) this instanceof BootItems.ExtraSpeedyBootItem) {
             builder.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.15, EntityAttributeModifier.Operation.MULTIPLY_BASE));
         }
     }

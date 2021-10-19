@@ -1,20 +1,13 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
