@@ -9,13 +9,13 @@ public class BootModel extends AnimatedGeoModel<BootItems.BaseBootItem>
     @Override
     public Identifier getModelLocation(BootItems.BaseBootItem object)
     {
-        return new Identifier("simplyboots", "geo/player_armor.geo.json");
+        return new Identifier("simplyboots", "geo/fancy_boots.geo.json");
     }
 
     @Override
     public Identifier getTextureLocation(BootItems.BaseBootItem object)
     {
-        return new Identifier("simplyboots", "textures/armor/frostspark_boots.png");
+        return new Identifier("simplyboots", "textures/armor/" + object.toString() + ".png");
     }
 
     @Override
