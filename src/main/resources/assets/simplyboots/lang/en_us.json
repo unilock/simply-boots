@@ -1,0 +1,15 @@
+{
+  "itemGroup.simplyboots.main_group": "Simply Boots",
+
+  "item.simplyboots.hermes_boots": "Hermes Boots",
+  "item.simplyboots.rocket_boots": "Rocket Boots",
+  "item.simplyboots.spectre_boots": "Spectre Boots",
+  "item.simplyboots.lightning_boots": "Lightning Boots",
+  "item.simplyboots.frostspark_boots": "Frostpark Boots",
+  "item.simplyboots.water_walking_boots": "Water Walking Boots",
+  "item.simplyboots.obsidian_water_walking_boots": "Obsidian Water Walking Boots",
+  "item.simplyboots.lava_waders": "Lava Waders",
+  "item.simplyboots.terraspark_boots": "Terraspark Boots",
+
+  "attribute.name.generic.step_height": "Step Height"
+}
