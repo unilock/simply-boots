@@ -7,8 +7,10 @@
     "ArmorItemMixin",
     "BlockCollisionSpliteratorMixin",
     "EntityMixin",
-    "InGameOverlayRendererMixin",
     "LivingEntityMixin"
+  ],
+  "client": [
+    "InGameOverlayRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
