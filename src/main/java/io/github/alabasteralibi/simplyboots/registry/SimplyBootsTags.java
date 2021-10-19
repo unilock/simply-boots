@@ -8,4 +8,5 @@ import net.minecraft.util.Identifier;
 public class SimplyBootsTags {
     public static final Tag<Item> FLUID_WALKING_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "fluid_walking_boots"));
     public static final Tag<Item> HOT_FLUID_WALKING_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "hot_fluid_walking_boots"));
+    public static final Tag<Item> ROCKET_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "rocket_boots"));
 }
