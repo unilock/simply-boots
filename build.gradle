@@ -12,6 +12,10 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+	maven {
+		name = "Ladysnake Mods"
+		url = 'https://ladysnake.jfrog.io/artifactory/mods'
+	}
 }
 
 dependencies {
@@ -21,6 +25,13 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation 'software.bernie.geckolib:geckolib-fabric-1.17:3.0.16:dev'
+
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.components_version}"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.components_version}"
+
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.components_version}"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.components_version}"
+
 }
 
 processResources {
