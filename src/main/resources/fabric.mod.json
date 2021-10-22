@@ -22,6 +22,9 @@
     ],
     "client": [
       "io.github.alabasteralibi.simplyboots.SimplyBootsClient"
+    ],
+    "cardinal-components": [
+      "io.github.alabasteralibi.simplyboots.components.BootComponents"
     ]
   },
   "mixins": [
@@ -33,5 +36,12 @@
     "fabric": "*",
     "minecraft": "1.17.x",
     "java": ">=16"
+  },
+
+  "custom": {
+    "cardinal-components": [
+      "simplyboots:rocket_boots",
+      "simplyboots:lava_boots"
+    ]
   }
 }
