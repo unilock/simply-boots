@@ -10,6 +10,9 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.MovementType;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -29,7 +32,6 @@ public class SimplyBoots implements ModInitializer {
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier("simplyboots", "rocket_boost"),
                 (server, player, handler, buf, responseSender) -> {
-                    player.sendSystemMessage(new LiteralText("e"), null);
                     if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) { return; }
                     if (player.isOnGround()) { return; }
 
@@ -42,12 +44,15 @@ public class SimplyBoots implements ModInitializer {
 
                     Vec3d velocity = player.getVelocity();
                     if (player.isFallFlying()) {
+                        rocketTicks.decrement();
+                        rocketTicks.decrement();
                         Vec3d vec3d = player.getRotationVector();
-                        player.setVelocity(velocity.add(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
+                        player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
                                 vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
-                                vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D));
+                                vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
+                        player.velocityModified = true;
                     } else {
-                        player.setVelocity(velocity.x, 1.0D, velocity.z);
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 2, 5, true, false, false));
                     }
                 });
     }

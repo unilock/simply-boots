@@ -1,5 +1,6 @@
 package io.github.alabasteralibi.simplyboots.components;
 
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
@@ -9,14 +10,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
-public class RocketBootsComponent implements ClampedBootIntComponent, ClientTickingComponent, ServerTickingComponent {
+public class RocketBootsComponent implements ClampedBootIntComponent, ClientTickingComponent, ServerTickingComponent, AutoSyncedComponent {
     private int rocketTicks = 0;
+    private boolean spacePressedLastTick;
+    private boolean onGroundLastTick;
+    private boolean flyingLastTick;
+    private boolean stillHoldingSpace;
+    private boolean elytraStart;
     private PlayerEntity entity;
-    private boolean wasDecremented = false;
-    public static final int MAX_VALUE = 60;
+    public static final int MAX_VALUE = 32;
     public static final int MIN_VALUE = 0;
 
     public RocketBootsComponent(PlayerEntity entity) {
@@ -34,6 +38,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
         if (rocketTicks > MAX_VALUE) {
             rocketTicks = MAX_VALUE;
         }
+        BootComponents.ROCKET_BOOTS.sync(this.entity);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
         if (rocketTicks < MIN_VALUE) {
             rocketTicks = MIN_VALUE;
         }
-        wasDecremented = true;
+        BootComponents.ROCKET_BOOTS.sync(this.entity);
     }
 
     @Override public void readFromNbt(NbtCompound tag) { rocketTicks = tag.getInt("rocketTicks"); }
@@ -50,20 +55,37 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
 
     @Override
     public void serverTick() {
-        if (wasDecremented) {
-            wasDecremented = false;
-        } else {
-            increment();
+        if (entity.isOnGround()) {
+            rocketTicks = MAX_VALUE;
         }
     }
 
     @Override
     public void clientTick() {
         if (entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
-            if (MinecraftClient.getInstance().options.keyJump.isPressed()) {
+            boolean spacePressedThisTick = MinecraftClient.getInstance().options.keyJump.isPressed();
+            boolean onGroundThisTick = MinecraftClient.getInstance().player.isOnGround();
+            boolean flyingThisTick = MinecraftClient.getInstance().player.isFallFlying();
+
+            if (!spacePressedLastTick && spacePressedThisTick && !onGroundLastTick) {
+                if (!flyingLastTick && flyingThisTick) {
+                    elytraStart = true;
+                } else {
+                    ClientPlayNetworking.send(new Identifier("simplyboots", "rocket_boost"), PacketByteBufs.empty());
+                    elytraStart = false;
+                }
+                stillHoldingSpace = true;
+            }
+            if (spacePressedLastTick && !spacePressedThisTick || onGroundThisTick) {
+                stillHoldingSpace = false;
+            }
+            if (stillHoldingSpace && !elytraStart) {
                 ClientPlayNetworking.send(new Identifier("simplyboots", "rocket_boost"), PacketByteBufs.empty());
             }
+
+            spacePressedLastTick = spacePressedThisTick;
+            onGroundLastTick = onGroundThisTick;
+            flyingLastTick = flyingThisTick;
         }
-        entity.sendMessage(new LiteralText(String.valueOf(getValue())), false);
     }
 }

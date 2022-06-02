@@ -7,7 +7,8 @@
     "ArmorItemMixin",
     "BlockCollisionSpliteratorMixin",
     "EntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "PlayerEntityMixin"
   ],
   "client": [
     "InGameOverlayRendererMixin"
