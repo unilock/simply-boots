@@ -1,12 +1,13 @@
 package io.github.alabasteralibi.simplyboots.components;
 
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 
-public class LavaBootsComponent implements ClampedBootIntComponent {
+public class LavaBootsComponent implements ClampedBootIntComponent, AutoSyncedComponent {
     private int lavaTicks = 0;
     private LivingEntity entity;
-    public static final int MAX_VALUE = 60;
+    public static final int MAX_VALUE = 140;
     public static final int MIN_VALUE = 0;
 
     public LavaBootsComponent(LivingEntity entity) {
@@ -24,6 +25,7 @@ public class LavaBootsComponent implements ClampedBootIntComponent {
         if (lavaTicks > MAX_VALUE) {
             lavaTicks = MAX_VALUE;
         }
+        BootComponents.LAVA_BOOTS.sync(entity);
     }
 
     @Override
@@ -32,6 +34,7 @@ public class LavaBootsComponent implements ClampedBootIntComponent {
         if (lavaTicks < MIN_VALUE) {
             lavaTicks = MIN_VALUE;
         }
+        BootComponents.LAVA_BOOTS.sync(entity);
     }
 
     @Override public void readFromNbt(NbtCompound tag) { lavaTicks = tag.getInt("lavaTicks"); }
