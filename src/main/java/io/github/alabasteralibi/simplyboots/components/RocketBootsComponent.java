@@ -47,7 +47,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
         if (rocketTicks < MIN_VALUE) {
             rocketTicks = MIN_VALUE;
         }
-        BootComponents.ROCKET_BOOTS.sync(this.entity);
+        BootComponents.ROCKET_BOOTS.sync(entity);
     }
 
     @Override public void readFromNbt(NbtCompound tag) { rocketTicks = tag.getInt("rocketTicks"); }
@@ -58,6 +58,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
         if (entity.isOnGround()) {
             rocketTicks = MAX_VALUE;
         }
+        BootComponents.ROCKET_BOOTS.sync(entity);
     }
 
     @Override
