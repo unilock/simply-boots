@@ -19,7 +19,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
     private boolean flyingLastTick;
     private boolean stillHoldingSpace;
     private boolean elytraStart;
-    private PlayerEntity entity;
+    private final PlayerEntity entity;
     public static final int MAX_VALUE = 32;
     public static final int MIN_VALUE = 0;
 
@@ -65,8 +65,8 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
     public void clientTick() {
         if (entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
             boolean spacePressedThisTick = MinecraftClient.getInstance().options.keyJump.isPressed();
-            boolean onGroundThisTick = MinecraftClient.getInstance().player.isOnGround();
-            boolean flyingThisTick = MinecraftClient.getInstance().player.isFallFlying();
+            boolean onGroundThisTick = entity.isOnGround();
+            boolean flyingThisTick = entity.isFallFlying();
 
             if (!spacePressedLastTick && spacePressedThisTick && !onGroundLastTick) {
                 if (!flyingLastTick && flyingThisTick) {
