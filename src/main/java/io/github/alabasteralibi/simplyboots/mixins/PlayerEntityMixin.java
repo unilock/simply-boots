@@ -38,14 +38,6 @@ public abstract class PlayerEntityMixin {
         if (boots.isIn(SimplyBootsTags.FIRE_RESISTANT_BOOTS)) {
             entity.extinguish();
         }
-
-        // Updates lava immunity TODO: Add HUD features for lava immunity time, rocket time
-        ClampedBootIntComponent lavaTicks = BootComponents.LAVA_BOOTS.get(entity);
-        if (entity.isInLava() && boots.isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
-            lavaTicks.decrement();
-        } else {
-            lavaTicks.increment();
-        }
     }
 
     @Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
