@@ -12,26 +12,18 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.impl.client.texture.FabricSprite;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -111,9 +103,12 @@ public class SimplyBoots implements ModInitializer {
     private boolean renderLavaImmunityBar(MatrixStack matrixStack, int drawWidth, int drawHeight) {
         PlayerEntity player = MinecraftClient.getInstance().player;
 
-        // Don't display if full and not in lava (like breath bubbles)
+        // Don't display if full (or empty) and not in lava (like breath bubbles)
         int lavaTicksLeft = BootComponents.LAVA_BOOTS.get(player).getValue();
         if (lavaTicksLeft == LavaBootsComponent.MAX_VALUE && !player.isSubmergedIn(FluidTags.LAVA)) {
+            return false;
+        }
+        if (lavaTicksLeft == LavaBootsComponent.MIN_VALUE) {
             return false;
         }
 
@@ -137,9 +132,12 @@ public class SimplyBoots implements ModInitializer {
     private boolean renderRocketBar(MatrixStack matrixStack, int drawWidth, int drawHeight) {
         PlayerEntity player = MinecraftClient.getInstance().player;
 
-        // Don't display if full
+        // Don't display if full or empty
         int rocketTicksLeft = BootComponents.ROCKET_BOOTS.get(player).getValue();
         if (rocketTicksLeft == RocketBootsComponent.MAX_VALUE || player.isOnGround()) {
+            return false;
+        }
+        if (rocketTicksLeft == RocketBootsComponent.MIN_VALUE) {
             return false;
         }
 
