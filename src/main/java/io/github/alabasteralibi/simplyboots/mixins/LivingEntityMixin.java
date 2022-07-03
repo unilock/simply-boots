@@ -20,7 +20,7 @@ public class LivingEntityMixin {
     }
 
     // Removes slipperiness on ice when having Frostspark Boots.
-    @ModifyVariable(method = "travel", at = @At(value = "STORE", target = "Lnet/minecraft/block/Block;getSlipperiness()F"))
+    @ModifyVariable(method = "travel", at = @At(value = "STORE"), index = 7)
     private float negateSlipperinessIfWearingFrostsparkBoots(float f) {
         if (f != 0.6F && entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ICE_SKATE_BOOTS)) {
             return 0.6F;

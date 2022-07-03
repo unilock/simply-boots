@@ -41,13 +41,13 @@ public class BlockCollisionSpliteratorMixin {
     private VoxelShape boxShape;
 
     @Inject(method = "offerBlockShape", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private void test(Consumer<? super VoxelShape> action, CallbackInfoReturnable<Boolean> ci, int i, int j, int k, int l, BlockView blockView, BlockState blockState) {
+    private void test(Consumer<? super VoxelShape> action, CallbackInfoReturnable<Boolean> cir, int i, int j, int k, int l, BlockView blockView) {
         if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }
         if (entity.getVelocity().y >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER  , 0) || entity.isSneaking()) { return; }
         ItemStack boots = entity.getEquippedStack(EquipmentSlot.FEET);
         if (!boots.isIn(SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
 
-        FluidState fluidState = blockState.getFluidState();
+        FluidState fluidState = blockView.getFluidState(new BlockPos(i, j, k));
         if (fluidState.isIn(FluidTags.LAVA) && !boots.isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) { return; }
         if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) { return; }
 
@@ -56,7 +56,7 @@ public class BlockCollisionSpliteratorMixin {
             if (VoxelShapes.matchesAnywhere(voxelShape, this.boxShape, BooleanBiFunction.AND)) {
                 entity.fallDistance = 0.0F;
                 action.accept(voxelShape);
-                ci.setReturnValue(true);
+                cir.setReturnValue(true);
             }
         }
     }
