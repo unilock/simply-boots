@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Walking In a Winter Wonderland"
+        },
+        "description": {
+            "text": "Find ice skates in an igloo"
+        },
+        "icon": {
+            "item": "simplyboots:ice_skates"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:ice_skates"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:root"
+}

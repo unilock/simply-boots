@@ -1,0 +1,21 @@
+{
+    "display": {
+        "title": {
+            "text": "Simply Boots"
+        },
+        "description": {
+            "text": "Good luck finding the boots!"
+        },
+        "icon": {
+            "item": "simplyboots:terraspark_boots"
+        },
+        "show_toast": false,
+        "announce_to_chat": false,
+        "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+    },
+    "criteria": {
+        "Start": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}

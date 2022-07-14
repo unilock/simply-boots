@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Premium Express"
+        },
+        "description": {
+            "text": "Find Hermes Boots in a dungeon"
+        },
+        "icon": {
+            "item": "simplyboots:hermes_boots"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:hermes_boots"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:root"
+}

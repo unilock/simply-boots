@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Two For the Price of One"
+        },
+        "description": {
+            "text": "Combine Hermes Boots and Rocket Boots at a smithing table"
+        },
+        "icon": {
+            "item": "simplyboots:spectre_boots"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:spectre_boots"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:hermes_boots"
+}

@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Electric Boogaloo"
+        },
+        "description": {
+            "text": "Strike Spectre Boots with lightning"
+        },
+        "icon": {
+            "item": "simplyboots:lightning_boots"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:lightning_boots"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:spectre_boots"
+}

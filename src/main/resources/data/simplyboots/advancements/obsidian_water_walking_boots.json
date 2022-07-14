@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Under the Sea"
+        },
+        "description": {
+            "text": "Use a Wither Skeleton Skull to upgrade Water Walking Boots"
+        },
+        "icon": {
+            "item": "simplyboots:obsidian_water_walking_boots"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:obsidian_water_walking_boots"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:water_walking_boots"
+}
