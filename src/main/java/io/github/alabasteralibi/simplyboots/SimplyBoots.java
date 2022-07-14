@@ -11,7 +11,10 @@ import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
@@ -23,13 +26,22 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.village.TradeOffer;
+import net.minecraft.village.VillagerProfession;
 
 public class SimplyBoots implements ModInitializer {
     public static final Identifier ICONS_TEXTURE = new Identifier("simplyboots", "textures/hud/icons.png");
+    private static final Identifier DUNGEON_LOOT_TABLE_ID = new Identifier("minecraft", "chests/simple_dungeon");
+    private static final Identifier BURIED_TREASURE_LOOT_TABLE_ID = new Identifier("minecraft", "chests/buried_treasure");
+    private static final Identifier SHIPWRECK_TREASURE_LOOT_TABLE_ID = new Identifier("minecraft", "chests/shipwreck_treasure");
+    private static final Identifier IGLOO_LOOT_TABLE_ID = new Identifier("minecraft", "chests/igloo_chest");
+    private static final Identifier BASTION_TREASURE_LOOT_TABLE_ID = new Identifier("minecraft", "chests/bastion_treasure");
 
     public static final ItemGroup MAIN_GROUP = FabricItemGroupBuilder.build(
             new Identifier("simplyboots", "main_group"),
@@ -39,6 +51,50 @@ public class SimplyBoots implements ModInitializer {
     public void onInitialize() {
         SimplyBootsItems.WATER_WALKING_BOOTS.toString();
         SimplyBootsAttributes.GENERIC_STEP_HEIGHT.toString();
+
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> factories.add((entity, random) ->
+                new TradeOffer(new ItemStack(Items.LEATHER_BOOTS), new ItemStack(Items.EMERALD, 10), new ItemStack(SimplyBootsItems.ROCKET_BOOTS), 4, 10, 0.05F)));
+
+        LootTableLoadingCallback.EVENT.register(((resourceManager, manager, id, supplier, setter) -> {
+            if (id.equals(DUNGEON_LOOT_TABLE_ID)) {
+                FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
+                        .with(ItemEntry.builder(SimplyBootsItems.HERMES_BOOTS).weight(1))
+                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+
+                supplier.pool(builder);
+            }
+
+            if (id.equals(BURIED_TREASURE_LOOT_TABLE_ID)) {
+                FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
+                        .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
+                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+
+                supplier.pool(builder);
+            }
+
+            if (id.equals(SHIPWRECK_TREASURE_LOOT_TABLE_ID)) {
+                FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
+                        .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
+                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(19));
+
+                supplier.pool(builder);
+            }
+
+            if (id.equals(IGLOO_LOOT_TABLE_ID)) {
+                FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
+                        .with(ItemEntry.builder(SimplyBootsItems.ICE_SKATES));
+
+                supplier.pool(builder);
+            }
+
+            if (id.equals(BASTION_TREASURE_LOOT_TABLE_ID)) {
+                FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
+                        .with(ItemEntry.builder(SimplyBootsItems.LAVA_CHARM).weight(1))
+                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+
+                supplier.pool(builder);
+            }
+        }));
 
         ServerPlayNetworking.registerGlobalReceiver(new Identifier("simplyboots", "rocket_boost"),
                 (server, player, handler, buf, responseSender) -> {

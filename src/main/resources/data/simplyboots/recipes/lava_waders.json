@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "simplyboots:obsidian_water_walking_boots"
+  },
+  "addition": {
+    "item": "simplyboots:lava_charm"
+  },
+  "result": {
+    "item": "simplyboots:lava_waders"
+  }
+}
