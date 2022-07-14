@@ -1,9 +1,14 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
+import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.ReusableStream;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -17,6 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.stream.Stream;
@@ -67,6 +73,23 @@ public abstract class EntityMixin {
             return SimplyBootsAttributes.getStepHeight((LivingEntity) entity);
         } else {
             return entity.stepHeight;
+        }
+    }
+
+    @Inject(method = "onStruckByLightning", at = @At(value = "HEAD"), cancellable = true)
+    private void upgradeSpectreBootsOnLightningStrike(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof ItemEntity item) {
+            if (item.getStack().getItem() == SimplyBootsItems.SPECTRE_BOOTS) {
+                ItemStack newStack = new ItemStack(SimplyBootsItems.LIGHTNING_BOOTS);
+                newStack.setNbt(item.getStack().getNbt());
+                world.spawnEntity(new ItemEntity(world, item.getX(), item.getY(), item.getZ(), newStack));
+                item.remove(Entity.RemovalReason.DISCARDED);
+                ci.cancel();
+            }
+            if (item.getStack().getItem() == SimplyBootsItems.LIGHTNING_BOOTS) {
+                ci.cancel();
+            }
         }
     }
 }
