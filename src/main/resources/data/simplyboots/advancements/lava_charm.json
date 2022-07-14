@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "Charmed, I'm Sure"
+        },
+        "description": {
+            "text": "Find a Lava Charm guarded by piglins"
+        },
+        "icon": {
+            "item": "simplyboots:lava_charm"
+        }
+    },
+    "criteria": {
+        "Found Item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "simplyboots:lava_charm"
+                        ],
+                        "count": {
+                            "min": 1
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "parent": "simplyboots:root"
+}
