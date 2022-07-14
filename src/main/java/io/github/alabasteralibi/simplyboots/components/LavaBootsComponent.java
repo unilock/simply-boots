@@ -2,8 +2,7 @@ package io.github.alabasteralibi.simplyboots.components;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
-import net.minecraft.entity.EquipmentSlot;
+import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 
@@ -45,7 +44,7 @@ public class LavaBootsComponent implements ClampedBootIntComponent, ServerTickin
 
     @Override
     public void serverTick() {
-        if (!entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+        if (!SimplyBootsHelpers.wearingLavaImmune(entity)) {
             lavaTicks = MIN_VALUE;
             BootComponents.LAVA_BOOTS.sync(entity);
             return;
