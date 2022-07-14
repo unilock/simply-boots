@@ -18,6 +18,7 @@ public class SimplyBootsClient implements ClientModInitializer {
         register(SimplyBootsItems.ROCKET_BOOTS);
         register(SimplyBootsItems.SPECTRE_BOOTS);
         register(SimplyBootsItems.LIGHTNING_BOOTS);
+        register(SimplyBootsItems.ICE_SKATES);
         register(SimplyBootsItems.FROSTSPARK_BOOTS);
         register(SimplyBootsItems.WATER_WALKING_BOOTS);
         register(SimplyBootsItems.OBSIDIAN_WATER_WALKING_BOOTS);

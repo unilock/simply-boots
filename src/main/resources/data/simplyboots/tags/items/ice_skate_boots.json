@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "simplyboots:ice_skates",
     "simplyboots:frostspark_boots",
     "simplyboots:terraspark_boots"
   ]
