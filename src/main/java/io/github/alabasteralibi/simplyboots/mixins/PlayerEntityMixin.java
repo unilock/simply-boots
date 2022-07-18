@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityMixin {
     private final PlayerEntity player = (PlayerEntity) (Object) this;
 
+    // Extinguishes fire at the end of a tick when appropriate.
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private void updateFireImmunity(CallbackInfo ci) {
         if (SimplyBootsHelpers.isFireImmune(player)) {
@@ -21,6 +22,7 @@ public abstract class PlayerEntityMixin {
         }
     }
 
+    // Cancels damage from fire/lava sources when appropriate.
     @Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
     private void cancelLavaAndFireDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (source == DamageSource.LAVA && BootComponents.LAVA_BOOTS.get(player).getValue() > 0 && SimplyBootsHelpers.wearingLavaImmune(player)) {

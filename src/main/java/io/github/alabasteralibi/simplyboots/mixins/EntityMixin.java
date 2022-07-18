@@ -30,6 +30,8 @@ import java.util.stream.Stream;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
+    // Makes vanilla perform the normal collisions in cases where it would normally perform the more broken single axis
+    // ones. May break something, but I haven't noticed anything yet.
     @Inject(method = "adjustMovementForCollisions(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Lnet/minecraft/world/World;Lnet/minecraft/block/ShapeContext;Lnet/minecraft/util/collection/ReusableStream;)Lnet/minecraft/util/math/Vec3d;",
             at = @At(value = "HEAD"), cancellable = true)
     private static void fixSingleAxisCollisions(@Nullable Entity entity, Vec3d movement, Box entityBoundingBox, World world, ShapeContext context, ReusableStream<VoxelShape> collisions, CallbackInfoReturnable<Vec3d> cir) {
@@ -66,6 +68,7 @@ public abstract class EntityMixin {
         cir.setReturnValue(new Vec3d(d, e, f));
     }
 
+    // Makes the step height attribute work.
     @Redirect(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
             at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
     private float fixThatGarbage(Entity entity) {
@@ -76,6 +79,7 @@ public abstract class EntityMixin {
         }
     }
 
+    // Allows spectre boots to upgrade into lightning boots, and makes lightning boots invincible to lightning (but not fire!)
     @Inject(method = "onStruckByLightning", at = @At(value = "HEAD"), cancellable = true)
     private void upgradeSpectreBootsOnLightningStrike(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;

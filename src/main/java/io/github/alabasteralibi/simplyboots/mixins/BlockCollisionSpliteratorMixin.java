@@ -2,7 +2,6 @@ package io.github.alabasteralibi.simplyboots.mixins;
 
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -40,6 +39,7 @@ public class BlockCollisionSpliteratorMixin {
     @Final
     private VoxelShape boxShape;
 
+    // Intercepts the vanilla code for colliding with blocks, making it treat fluids as solid in the right circumstances.
     @Inject(method = "offerBlockShape", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void test(Consumer<? super VoxelShape> action, CallbackInfoReturnable<Boolean> cir, int i, int j, int k, int l, BlockView blockView) {
         if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }

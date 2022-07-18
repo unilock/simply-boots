@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingEntityMixin {
     private final LivingEntity entity = (LivingEntity) (Object) this;
 
+    // Adds the step height attribute to all living entities.
     @Inject(method = "createLivingAttributes", at = @At(value = "RETURN"))
     private static void addStepHeightAttribute(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         cir.getReturnValue().add(SimplyBootsAttributes.GENERIC_STEP_HEIGHT);

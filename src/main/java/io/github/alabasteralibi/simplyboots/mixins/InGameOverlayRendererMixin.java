@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameOverlayRenderer.class)
 @Environment(EnvType.CLIENT)
 public class InGameOverlayRendererMixin {
+
+    // Cancels the fire overlay when appropriate.
     @Inject(method = "renderFireOverlay", at = @At(value = "HEAD"), cancellable = true)
     private static void cancelOverlayWhenImmune(MinecraftClient client, MatrixStack vertices, CallbackInfo ci) {
         if (client.player != null && SimplyBootsHelpers.isFireImmune(client.player)) {
