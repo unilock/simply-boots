@@ -4,10 +4,10 @@
             "text": "Simply Boots"
         },
         "description": {
-            "text": "Good luck finding the boots!"
+            "text": "Good luck finding all of the boots!"
         },
         "icon": {
-            "item": "simplyboots:terraspark_boots"
+            "item": "minecraft:leather_boots"
         },
         "show_toast": false,
         "announce_to_chat": false,
