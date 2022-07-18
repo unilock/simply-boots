@@ -45,16 +45,77 @@ public class SimplyBoots implements ModInitializer {
 
     public static final ItemGroup MAIN_GROUP = FabricItemGroupBuilder.build(
             new Identifier("simplyboots", "main_group"),
-            () -> new ItemStack(SimplyBootsItems.LAVA_WADERS));
+            () -> new ItemStack(SimplyBootsItems.TERRASPARK_BOOTS));
 
     @Override
     public void onInitialize() {
         SimplyBootsItems.WATER_WALKING_BOOTS.toString();
         SimplyBootsAttributes.GENERIC_STEP_HEIGHT.toString();
 
+        // Adds rocket boots trade to armorer villagers
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> factories.add((entity, random) ->
                 new TradeOffer(new ItemStack(Items.LEATHER_BOOTS), new ItemStack(Items.EMERALD, 10), new ItemStack(SimplyBootsItems.ROCKET_BOOTS), 4, 10, 0.05F)));
 
+        setupLootTableAdditions();
+
+        // Registers a packet for when clients wish to activate their rocket boots
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier("simplyboots", "rocket_boost"),
+                (server, player, handler, buf, responseSender) -> {
+                    if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
+                        return;
+                    }
+                    if (player.isOnGround()) {
+                        return;
+                    }
+
+                    ClampedBootIntComponent rocketTicks = BootComponents.ROCKET_BOOTS.get(player);
+                    if (rocketTicks.getValue() > 0) {
+                        rocketTicks.decrement();
+                    } else {
+                        return;
+                    }
+
+                    Vec3d velocity = player.getVelocity();
+                    if (player.isFallFlying()) {
+                        rocketTicks.decrement();
+                        rocketTicks.decrement();
+                        Vec3d vec3d = player.getRotationVector();
+                        player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
+                                vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
+                                vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
+                    } else {
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
+                    }
+                });
+
+        // Render HUD elements for rocket and lava timers
+        HudRenderCallback.EVENT.register(((matrixStack, tickDelta) -> {
+            PlayerEntity player = MinecraftClient.getInstance().player;
+
+            if (player == null || player.isCreative()) {
+                return;
+            }
+
+            int vehicle_hearts = 0;
+            if (player.getVehicle() instanceof LivingEntity vehicle) {
+                vehicle_hearts = (int) (vehicle.getMaxHealth() + 0.5F) / 2;
+                if (vehicle_hearts > 30) {
+                    vehicle_hearts = 30;
+                }
+            }
+
+            int drawWidth = MinecraftClient.getInstance().getWindow().getScaledWidth() / 2 + 91;
+
+            int drawHeight = MinecraftClient.getInstance().getWindow().getScaledHeight() - 59;
+            drawHeight -= ((int) Math.ceil(vehicle_hearts / 10.0D) - 1) * 10;
+            drawHeight -= player.getAir() < player.getMaxAir() ? 10 : 0;  // If air showing, move up
+
+            drawHeight -= renderLavaImmunityBar(matrixStack, drawWidth, drawHeight) ? 10 : 0;
+            drawHeight -= renderRocketBar(matrixStack, drawWidth, drawHeight) ? 10 : 0;
+        }));
+    }
+
+    private void setupLootTableAdditions() {
         LootTableLoadingCallback.EVENT.register(((resourceManager, manager, id, supplier, setter) -> {
             if (id.equals(DUNGEON_LOOT_TABLE_ID)) {
                 FabricLootPoolBuilder builder = FabricLootPoolBuilder.builder()
@@ -95,67 +156,14 @@ public class SimplyBoots implements ModInitializer {
                 supplier.pool(builder);
             }
         }));
-
-        ServerPlayNetworking.registerGlobalReceiver(new Identifier("simplyboots", "rocket_boost"),
-                (server, player, handler, buf, responseSender) -> {
-
-                    if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) { return; }
-                    if (player.isOnGround()) { return; }
-
-                    ClampedBootIntComponent rocketTicks = BootComponents.ROCKET_BOOTS.get(player);
-                    if (rocketTicks.getValue() > 0) {
-                        rocketTicks.decrement();
-                    } else {
-                        return;
-                    }
-
-                    Vec3d velocity = player.getVelocity();
-                    if (player.isFallFlying()) {
-                        rocketTicks.decrement();
-                        rocketTicks.decrement();
-                        Vec3d vec3d = player.getRotationVector();
-                        player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
-                                vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
-                                vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
-                    } else {
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
-                    }
-                });
-
-        // Render HUD elements for rocket and lava timers
-        HudRenderCallback.EVENT.register(((matrixStack, tickDelta) -> {
-            PlayerEntity player = MinecraftClient.getInstance().player;
-
-            if (player == null || player.isCreative()) {
-                return;
-            }
-
-            int vehicle_hearts = 0;
-            if (player.getVehicle() instanceof LivingEntity vehicle) {
-                vehicle_hearts = (int)(vehicle.getMaxHealth() + 0.5F) / 2;
-                if (vehicle_hearts > 30) {
-                    vehicle_hearts = 30;
-                }
-            }
-
-            int drawWidth = MinecraftClient.getInstance().getWindow().getScaledWidth() / 2 + 91;
-
-            int drawHeight = MinecraftClient.getInstance().getWindow().getScaledHeight() - 59;
-            drawHeight -= ((int)Math.ceil(vehicle_hearts / 10.0D) - 1) * 10;
-            drawHeight -= player.getAir() < player.getMaxAir() ? 10 : 0;  // If air showing, move up
-
-            drawHeight -= renderLavaImmunityBar(matrixStack, drawWidth, drawHeight) ? 10 : 0;
-            drawHeight -= renderRocketBar(matrixStack, drawWidth, drawHeight) ? 10 : 0;
-
-
-        }));
     }
 
     /**
      * Renders the lava immunity bar for the player above the hunger shanks.
+     *
      * @param matrixStack The MatrixStack to draw to.
-     * @param drawWidth The width to draw the right side of the bar at.
-     * @param drawHeight The height to draw the bar at.
+     * @param drawWidth   The width to draw the right side of the bar at.
+     * @param drawHeight  The height to draw the bar at.
      * @return Whether the bar was successfully rendered or not.
      */
     private boolean renderLavaImmunityBar(MatrixStack matrixStack, int drawWidth, int drawHeight) {
@@ -173,8 +181,8 @@ public class SimplyBoots implements ModInitializer {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, ICONS_TEXTURE);
-        int iconsToDraw = MathHelper.ceil(lavaTicksLeft * 10 / (double)LavaBootsComponent.MAX_VALUE);
-        for(int i = 0; i < iconsToDraw; ++i) {
+        int iconsToDraw = MathHelper.ceil(lavaTicksLeft * 10 / (double) LavaBootsComponent.MAX_VALUE);
+        for (int i = 0; i < iconsToDraw; ++i) {
             DrawableHelper.drawTexture(matrixStack, drawWidth - i * 8 - 9, drawHeight, 0, 0, 9, 9, 18, 9);
         }
         return true;
@@ -182,9 +190,10 @@ public class SimplyBoots implements ModInitializer {
 
     /**
      * Renders the remaining rocket boost time above any other bars.
+     *
      * @param matrixStack The MatrixStack to draw to.
-     * @param drawWidth The width to draw the right side of the bar at.
-     * @param drawHeight The height to draw the bar at.
+     * @param drawWidth   The width to draw the right side of the bar at.
+     * @param drawHeight  The height to draw the bar at.
      * @return Whether the rocket bar was successfully rendered or not.
      */
     private boolean renderRocketBar(MatrixStack matrixStack, int drawWidth, int drawHeight) {
@@ -202,8 +211,8 @@ public class SimplyBoots implements ModInitializer {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, ICONS_TEXTURE);
-        int iconsToDraw = MathHelper.ceil(rocketTicksLeft * 10 / (double)RocketBootsComponent.MAX_VALUE);
-        for(int i = 0; i < iconsToDraw; ++i) {
+        int iconsToDraw = MathHelper.ceil(rocketTicksLeft * 10 / (double) RocketBootsComponent.MAX_VALUE);
+        for (int i = 0; i < iconsToDraw; ++i) {
             DrawableHelper.drawTexture(matrixStack, drawWidth - i * 8 - 9, drawHeight, 9, 0, 9, 9, 18, 9);
         }
         return true;
