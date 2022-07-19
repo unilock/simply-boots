@@ -1,9 +1,12 @@
-# Fabric Example Mod
+# Simply Boots
 
-## Setup
+A small Fabric mod that adds many boots from Terraria to Minecraft.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+## Getting Started
+
+The mod's advancements provide the player with the appropriate locations to find all of
+the base boots.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Simply Boots is provided under the LGPL-3.0 license.
