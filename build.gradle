@@ -24,7 +24,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation 'software.bernie.geckolib:geckolib-fabric-1.17:3.0.16:dev'
+	modImplementation "software.bernie.geckolib:geckolib-fabric-1.17:3.0.32"
 
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${project.components_version}"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${project.components_version}"
