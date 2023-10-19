@@ -7,29 +7,31 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockCollisionSpliterator;
 import net.minecraft.world.BlockView;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.CollisionView;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.function.Consumer;
+import java.util.function.BiFunction;
 
 @Mixin(BlockCollisionSpliterator.class)
-public class BlockCollisionSpliteratorMixin {
-    @Shadow
-    @Final
-    private @Nullable Entity entity;
+public class BlockCollisionSpliteratorMixin<T> {
+    @Unique
+    private Entity entity;
 
     @Shadow
     @Final
@@ -39,11 +41,20 @@ public class BlockCollisionSpliteratorMixin {
     @Final
     private VoxelShape boxShape;
 
+    @Shadow
+    @Final
+    private BiFunction<BlockPos.Mutable, VoxelShape, T> resultFunction;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void init(CollisionView world, Entity entity, Box box, boolean forEntity, BiFunction<BlockPos.Mutable, VoxelShape, ?> resultFunction, CallbackInfo ci) {
+        this.entity = entity;
+    }
+
     // Intercepts the vanilla code for colliding with blocks, making it treat fluids as solid in the right circumstances.
-    @Inject(method = "offerBlockShape", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private void test(Consumer<? super VoxelShape> action, CallbackInfoReturnable<Boolean> cir, int i, int j, int k, int l, BlockView blockView) {
+    @Inject(method = "computeNext", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private void computeNext(CallbackInfoReturnable<T> cir, int i, int j, int k, int l, BlockView blockView) {
         if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }
-        if (entity.getVelocity().y >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER  , 0) || entity.isSneaking()) { return; }
+        if (entity.getVelocity().getY() >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER, 0) || entity.isSneaking()) { return; }
         ItemStack boots = entity.getEquippedStack(EquipmentSlot.FEET);
         if (!boots.isIn(SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
 
@@ -55,8 +66,7 @@ public class BlockCollisionSpliteratorMixin {
             VoxelShape voxelShape = fluidState.getShape(blockView, this.pos).offset(i, j, k);
             if (VoxelShapes.matchesAnywhere(voxelShape, this.boxShape, BooleanBiFunction.AND)) {
                 entity.fallDistance = 0.0F;
-                action.accept(voxelShape);
-                cir.setReturnValue(true);
+                cir.setReturnValue(this.resultFunction.apply(this.pos, voxelShape));
             }
         }
     }

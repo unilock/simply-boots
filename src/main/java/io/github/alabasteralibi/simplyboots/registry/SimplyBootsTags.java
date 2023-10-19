@@ -1,14 +1,14 @@
 package io.github.alabasteralibi.simplyboots.registry;
 
-import net.fabricmc.fabric.impl.tag.extension.TagFactoryImpl;
+import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import net.minecraft.item.Item;
-import net.minecraft.tag.Tag;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 
 public class SimplyBootsTags {
-    public static final Tag<Item> FLUID_WALKING_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "fluid_walking_boots"));
-    public static final Tag<Item> HOT_FLUID_WALKING_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "hot_fluid_walking_boots"));
-    public static final Tag<Item> FIRE_RESISTANT_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "fire_resistant_boots"));
-    public static final Tag<Item> ROCKET_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "rocket_boots"));
-    public static final Tag<Item> ICE_SKATE_BOOTS = TagFactoryImpl.ITEM.create(new Identifier("simplyboots", "ice_skate_boots"));
+    public static final TagKey<Item> FLUID_WALKING_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("fluid_walking_boots"));
+    public static final TagKey<Item> HOT_FLUID_WALKING_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("hot_fluid_walking_boots"));
+    public static final TagKey<Item> FIRE_RESISTANT_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("fire_resistant_boots"));
+    public static final TagKey<Item> ROCKET_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("rocket_boots"));
+    public static final TagKey<Item> ICE_SKATE_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("ice_skate_boots"));
 }

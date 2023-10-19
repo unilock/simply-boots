@@ -3,7 +3,6 @@ package io.github.alabasteralibi.simplyboots.mixins;
 import com.google.common.collect.ImmutableMultimap;
 import io.github.alabasteralibi.simplyboots.items.BootItems;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -18,19 +17,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.EnumMap;
 import java.util.UUID;
 
 @Mixin(ArmorItem.class)
 public class ArmorItemMixin {
     @Shadow
     @Final
-    private static UUID[] MODIFIERS;
+    private static EnumMap<ArmorItem.Type, UUID> MODIFIERS;
 
     @Inject(method = "<init>",
             at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMultimap$Builder;build()Lcom/google/common/collect/ImmutableMultimap;"),
             locals = LocalCapture.CAPTURE_FAILHARD)
-    private void addBootAttributes(ArmorMaterial material, EquipmentSlot slot, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
-        UUID uUID = MODIFIERS[slot.getEntitySlotId()];
+    private void addBootAttributes(ArmorMaterial material, ArmorItem.Type type, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
+        UUID uUID = MODIFIERS.get(type);
         if ((ArmorItem) (Object) this instanceof BootItems.BaseBootItem) {
             builder.put(SimplyBootsAttributes.GENERIC_STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.4, EntityAttributeModifier.Operation.ADDITION));
         }

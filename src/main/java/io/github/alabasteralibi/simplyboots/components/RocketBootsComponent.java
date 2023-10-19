@@ -3,6 +3,7 @@ package io.github.alabasteralibi.simplyboots.components;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
+import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -12,7 +13,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class RocketBootsComponent implements ClampedBootIntComponent, ClientTickingComponent, ServerTickingComponent, AutoSyncedComponent {
@@ -67,7 +67,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
     @Override
     public void clientTick() {
         if (player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
-            boolean spacePressedThisTick = MinecraftClient.getInstance().options.keyJump.isPressed();
+            boolean spacePressedThisTick = MinecraftClient.getInstance().options.jumpKey.isPressed();
             boolean onGroundThisTick = player.isOnGround();
             boolean flyingThisTick = player.isFallFlying();
 
@@ -76,7 +76,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 if (!flyingLastTick && flyingThisTick) {
                     elytraStart = true;
                 } else {
-                    ClientPlayNetworking.send(new Identifier("simplyboots", "rocket_boost"), PacketByteBufs.empty());
+                    ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
 
                     if (player.isOnGround()) { return; }
 
@@ -104,7 +104,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 stillHoldingSpace = false;
             }
             if (stillHoldingSpace && !elytraStart && !sentBoost) {
-                ClientPlayNetworking.send(new Identifier("simplyboots", "rocket_boost"), PacketByteBufs.empty());
+                ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
                 if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) { return; }
                 if (player.isOnGround()) { return; }
 
