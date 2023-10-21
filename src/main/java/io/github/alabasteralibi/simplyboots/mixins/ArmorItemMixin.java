@@ -33,7 +33,7 @@ public class ArmorItemMixin {
     private void addBootAttributes(ArmorMaterial material, ArmorItem.Type type, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
         UUID uUID = MODIFIERS.get(type);
         if ((ArmorItem) (Object) this instanceof BootItems.BaseBootItem) {
-            builder.put(StepHeightEntityAttributeMain.STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.4, EntityAttributeModifier.Operation.ADDITION));
+            builder.put(StepHeightEntityAttributeMain.STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.75, EntityAttributeModifier.Operation.ADDITION));
         }
         if ((ArmorItem) (Object) this instanceof BootItems.SpeedyBootItem) {
             builder.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.075, EntityAttributeModifier.Operation.MULTIPLY_BASE));
