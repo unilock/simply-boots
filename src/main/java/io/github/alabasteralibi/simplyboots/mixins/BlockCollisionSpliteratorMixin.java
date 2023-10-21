@@ -1,6 +1,5 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -62,7 +61,7 @@ public class BlockCollisionSpliteratorMixin<T> {
         if (fluidState.isIn(FluidTags.LAVA) && !boots.isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) { return; }
         if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) { return; }
 
-        if ((entity.getY() + (entity.isOnGround() ? SimplyBootsAttributes.getStepHeight(entity) : 0)) - (j + fluidState.getHeight()) >= -1E-6) { // Epsilon
+        if ((entity.getY() + (entity.isOnGround() ? entity.getStepHeight() : 0)) - (j + fluidState.getHeight()) >= -1E-6) { // Epsilon
             VoxelShape voxelShape = fluidState.getShape(blockView, this.pos).offset(i, j, k);
             if (VoxelShapes.matchesAnywhere(voxelShape, this.boxShape, BooleanBiFunction.AND)) {
                 entity.fallDistance = 0.0F;

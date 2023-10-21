@@ -19,6 +19,10 @@ repositories {
 		name = 'Ladysnake Mods'
 		url = 'https://maven.ladysnake.org/releases'
 	}
+	maven {
+		name = 'Jitpack'
+		url = "https://jitpack.io"
+	}
 }
 
 dependencies {
@@ -30,6 +34,7 @@ dependencies {
 	modImplementation "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
 	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.components_version}")
 	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.components_version}")
+	modImplementation include("com.github.emilyploszaj:step-height-entity-attribute:${project.shea_version}")
 }
 
 processResources {

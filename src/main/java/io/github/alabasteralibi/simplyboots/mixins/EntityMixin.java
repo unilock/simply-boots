@@ -1,12 +1,10 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
 import com.google.common.collect.ImmutableList;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
@@ -18,7 +16,6 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -64,16 +61,6 @@ public abstract class EntityMixin {
         }
 
         cir.setReturnValue(new Vec3d(d, e, f));
-    }
-
-    // Makes the step height attribute work.
-    @Redirect(method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getStepHeight()F"))
-    private float fixThatGarbage(Entity entity) {
-        if (entity instanceof LivingEntity) {
-            return SimplyBootsAttributes.getStepHeight((LivingEntity) entity);
-        } else {
-            return entity.getStepHeight();
-        }
     }
 
     // Allows spectre boots to upgrade into lightning boots, and makes lightning boots invincible to lightning (but not fire!)

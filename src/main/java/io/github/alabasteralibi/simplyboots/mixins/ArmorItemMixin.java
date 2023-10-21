@@ -1,8 +1,8 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
 import com.google.common.collect.ImmutableMultimap;
+import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import io.github.alabasteralibi.simplyboots.items.BootItems;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -28,11 +28,12 @@ public class ArmorItemMixin {
 
     @Inject(method = "<init>",
             at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMultimap$Builder;build()Lcom/google/common/collect/ImmutableMultimap;"),
-            locals = LocalCapture.CAPTURE_FAILHARD)
+            locals = LocalCapture.CAPTURE_FAILHARD,
+            remap = false)
     private void addBootAttributes(ArmorMaterial material, ArmorItem.Type type, Item.Settings settings, CallbackInfo ci, ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder) {
         UUID uUID = MODIFIERS.get(type);
         if ((ArmorItem) (Object) this instanceof BootItems.BaseBootItem) {
-            builder.put(SimplyBootsAttributes.GENERIC_STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.4, EntityAttributeModifier.Operation.ADDITION));
+            builder.put(StepHeightEntityAttributeMain.STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.4, EntityAttributeModifier.Operation.ADDITION));
         }
         if ((ArmorItem) (Object) this instanceof BootItems.SpeedyBootItem) {
             builder.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.075, EntityAttributeModifier.Operation.MULTIPLY_BASE));

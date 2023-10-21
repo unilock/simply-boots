@@ -1,26 +1,20 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsAttributes;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
     @Unique
     private final LivingEntity entity = (LivingEntity) (Object) this;
-
-    // Adds the step height attribute to all living entities.
-    @Inject(method = "createLivingAttributes", at = @At(value = "RETURN"))
-    private static void addStepHeightAttribute(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
-        cir.getReturnValue().add(SimplyBootsAttributes.GENERIC_STEP_HEIGHT);
-    }
 
     // Removes slipperiness on ice when having Frostspark Boots.
     @ModifyVariable(method = "travel", at = @At(value = "STORE"), index = 7)
