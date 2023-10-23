@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import dev.emi.trinkets.api.SlotReference;
 import io.github.alabasteralibi.simplyboots.client.BootRenderer;
+import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -70,6 +71,12 @@ public class BootItems {
         @Override
         public AnimatableInstanceCache getAnimatableInstanceCache() {
             return this.cache;
+        }
+
+        // Prevents equipping boots if a pair is already equipped as armor.
+        @Override
+        public boolean canEquip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+            return !entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.BOOTS);
         }
 
         @Override
