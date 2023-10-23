@@ -26,14 +26,12 @@ public class SimplyBootsHelpers {
 
     public static boolean wearingLavaImmune(LivingEntity entity) {
         return SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS) ||
-               entity.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == SimplyBootsItems.LAVA_CHARM ||
-               entity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() == SimplyBootsItems.LAVA_CHARM;
+                entity.isHolding(SimplyBootsItems.LAVA_CHARM);
     }
 
     public static boolean isFireImmune(LivingEntity entity) {
         return SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FIRE_RESISTANT_BOOTS) ||
-               entity.getEquippedStack(EquipmentSlot.MAINHAND).getItem() == SimplyBootsItems.LAVA_CHARM ||
-               entity.getEquippedStack(EquipmentSlot.OFFHAND).getItem() == SimplyBootsItems.LAVA_CHARM;
+                entity.isHolding(SimplyBootsItems.LAVA_CHARM);
     }
 
     public static Identifier id(String path) {
