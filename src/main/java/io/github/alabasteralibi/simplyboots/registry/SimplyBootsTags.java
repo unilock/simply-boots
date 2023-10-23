@@ -6,6 +6,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
 public class SimplyBootsTags {
+    public static final TagKey<Item> BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("boots"));
     public static final TagKey<Item> FLUID_WALKING_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("fluid_walking_boots"));
     public static final TagKey<Item> HOT_FLUID_WALKING_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("hot_fluid_walking_boots"));
     public static final TagKey<Item> FIRE_RESISTANT_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("fire_resistant_boots"));
