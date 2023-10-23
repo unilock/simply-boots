@@ -1,11 +1,10 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
+import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
@@ -54,11 +53,10 @@ public class BlockCollisionSpliteratorMixin<T> {
     private void computeNext(CallbackInfoReturnable<T> cir, int i, int j, int k, int l, BlockView blockView) {
         if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }
         if (entity.getVelocity().getY() >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER, 0) || entity.isSneaking()) { return; }
-        ItemStack boots = entity.getEquippedStack(EquipmentSlot.FEET);
-        if (!boots.isIn(SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
+        if (!SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
 
         FluidState fluidState = blockView.getFluidState(new BlockPos(i, j, k));
-        if (fluidState.isIn(FluidTags.LAVA) && !boots.isIn(SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) { return; }
+        if (fluidState.isIn(FluidTags.LAVA) && !SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) { return; }
         if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) { return; }
 
         if ((entity.getY() + (entity.isOnGround() ? entity.getStepHeight() : 0)) - (j + fluidState.getHeight()) >= -1E-6) { // Epsilon

@@ -8,7 +8,6 @@ import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -66,7 +65,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
 
     @Override
     public void clientTick() {
-        if (player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
+        if (SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) {
             boolean spacePressedThisTick = MinecraftClient.getInstance().options.jumpKey.isPressed();
             boolean onGroundThisTick = player.isOnGround();
             boolean flyingThisTick = player.isFallFlying();
@@ -105,7 +104,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
             }
             if (stillHoldingSpace && !elytraStart && !sentBoost) {
                 ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
-                if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) { return; }
+                if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) { return; }
                 if (player.isOnGround()) { return; }
 
                 ClampedBootIntComponent rocketTicks = BootComponents.ROCKET_BOOTS.get(player);

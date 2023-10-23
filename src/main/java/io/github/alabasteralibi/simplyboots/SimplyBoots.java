@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -66,7 +65,7 @@ public class SimplyBoots implements ModInitializer {
         // Registers a packet for when clients wish to activate their rocket boots
         ServerPlayNetworking.registerGlobalReceiver(SimplyBootsHelpers.id("rocket_boost"),
                 (server, player, handler, buf, responseSender) -> {
-                    if (!player.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.ROCKET_BOOTS)) {
+                    if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) {
                         return;
                     }
                     if (player.isOnGround()) {
