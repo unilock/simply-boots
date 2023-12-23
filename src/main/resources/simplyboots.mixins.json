@@ -10,11 +10,14 @@
     "EquipmentMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerScreenHandlerMixin"
+    "PlayerScreenHandlerMixin",
+    "SimplyBootsTrinketMixin"
   ],
   "client": [
-    "InGameOverlayRendererMixin"
+    "InGameOverlayRendererMixin",
+    "SimplyBootsClientTrinketMixin"
   ],
+  "plugin": "io.github.alabasteralibi.simplyboots.mixins.SimplyBootsTrinketMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }
