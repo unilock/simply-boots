@@ -90,8 +90,6 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                         player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
                                 vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
                                 vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
-                    } else {
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
                     }
 
                     elytraStart = false;
@@ -118,8 +116,6 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                     player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
                             vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
                             vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
-                } else {
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
                 }
             }
 
