@@ -12,4 +12,6 @@ public class SimplyBootsTags {
     public static final TagKey<Item> FIRE_RESISTANT_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("fire_resistant_boots"));
     public static final TagKey<Item> ROCKET_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("rocket_boots"));
     public static final TagKey<Item> ICE_SKATE_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("ice_skate_boots"));
+    public static final TagKey<Item> SPEEDY_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("speedy_boots"));
+    public static final TagKey<Item> EXTRA_SPEEDY_BOOTS = TagKey.of(RegistryKeys.ITEM, SimplyBootsHelpers.id("extra_speedy_boots"));
 }
