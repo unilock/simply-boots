@@ -1,7 +1,9 @@
 package io.github.alabasteralibi.simplyboots.client;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.client.TrinketRenderer;
+import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -16,9 +18,14 @@ public class TrinketBootRenderer implements TrinketRenderer {
 
     @Override
     public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (this.renderer == null)
+        if (entity.hasStackEquipped(EquipmentSlot.FEET)) {
+            // TODO: Play with the model to get it to render over vanilla boots.
+            // I'm just so tired of messing with rendering.
+            return;
+        }
+        if (this.renderer == null) {
             this.renderer = new BootRenderer();
-
+        }
         renderer.prepForRender(entity, stack, EquipmentSlot.FEET, (BipedEntityModel<?>) contextModel);
         renderer.defaultRender(matrices, renderer.getAnimatable(), vertexConsumers, null, vertexConsumers.getBuffer(RenderLayer.getArmorCutoutNoCull(renderer.getTextureLocation(renderer.getAnimatable()))), 0, tickDelta, light);
     }
