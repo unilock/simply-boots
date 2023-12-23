@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
 
-import static io.github.alabasteralibi.simplyboots.items.BootItems.BaseBootItem.STEP_BOOST_MODIFIER;
+import static io.github.alabasteralibi.simplyboots.items.BootItem.STEP_BOOST_MODIFIER;
 
 @Mixin(SimplyBootsItems.class)
 public abstract class SimplyBootsTrinketMixin {

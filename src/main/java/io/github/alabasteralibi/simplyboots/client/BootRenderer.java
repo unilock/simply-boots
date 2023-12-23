@@ -1,10 +1,10 @@
 package io.github.alabasteralibi.simplyboots.client;
 
-import io.github.alabasteralibi.simplyboots.items.BootItems;
+import io.github.alabasteralibi.simplyboots.items.BootItem;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
-public class BootRenderer extends GeoArmorRenderer<BootItems.BaseBootItem> {
+public class BootRenderer extends GeoArmorRenderer<BootItem> {
     public BootRenderer() {
         super(new BootModel());
     }
