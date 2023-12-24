@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import io.github.alabasteralibi.simplyboots.client.BootRenderer;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -14,6 +15,10 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.RenderProvider;
@@ -23,6 +28,7 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -90,5 +96,14 @@ public class BootItem extends ArmorItem implements GeoItem {
             }
         }
         return modifiers;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        Text text = Text.translatable(String.format("item.simplyboots.%s.tooltip", this));
+        String[] lines = text.getString().split("\n");
+        for (String line : lines) {
+            tooltip.add(Text.of(line));
+        }
     }
 }

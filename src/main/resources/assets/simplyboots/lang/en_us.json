@@ -13,5 +13,17 @@
   "item.simplyboots.lava_waders": "Lava Waders",
   "item.simplyboots.terraspark_boots": "Terraspark Boots",
 
+  "item.simplyboots.hermes_boots.tooltip": "Allows faster movement.",
+  "item.simplyboots.rocket_boots.tooltip": "Allows limited flight and Elytra boosting.",
+  "item.simplyboots.spectre_boots.tooltip": "Allows faster movement, limited flight,\nand Elytra boosting.",
+  "item.simplyboots.lightning_boots.tooltip": "Allows faster movement, limited flight\nand Elytra boosting.",
+  "item.simplyboots.ice_skates.tooltip": "Allows extra mobility on ice.",
+  "item.simplyboots.frostspark_boots.tooltip": "Allows faster movement, limited flight,\nElytra boosting, and extra mobility on ice.",
+  "item.simplyboots.water_walking_boots.tooltip": "Provides the ability to walk on water.",
+  "item.simplyboots.obsidian_water_walking_boots.tooltip": "Provides the ability to walk on water.\nGrants fire resistance.",
+  "item.simplyboots.lava_charm.tooltip": "When held, grants fire resistance and\n7 seconds of lava immunity.",
+  "item.simplyboots.lava_waders.tooltip": "Provides the ability to walk on water and lava.\nGrants fire resistance and\n7 seconds of lava immunity.",
+  "item.simplyboots.terraspark_boots.tooltip": "Allows faster movement, limited flight,\nElytra boosting, and extra mobility on ice.\nProvides the ability to walk on water and lava.\nGrants fire resistance and\n7 seconds of lava immunity.",
+
   "attribute.name.generic.step_height": "Step Height"
 }

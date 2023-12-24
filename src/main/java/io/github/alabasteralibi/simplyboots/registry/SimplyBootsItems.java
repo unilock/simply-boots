@@ -4,13 +4,20 @@ import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import io.github.alabasteralibi.simplyboots.items.BootItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SimplyBootsItems {
     public static final Item HERMES_BOOTS = register("hermes_boots", new BootItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
@@ -23,7 +30,14 @@ public class SimplyBootsItems {
     public static final Item OBSIDIAN_WATER_WALKING_BOOTS = register("obsidian_water_walking_boots", new BootItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
     public static final Item LAVA_WADERS = register("lava_waders", new BootItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new FabricItemSettings().fireproof()));
     public static final Item TERRASPARK_BOOTS = register("terraspark_boots", new BootItem(ArmorMaterials.LEATHER, ArmorItem.Type.BOOTS, new FabricItemSettings().fireproof()));
-    public static final Item LAVA_CHARM = register("lava_charm", new Item(new FabricItemSettings().fireproof()));
+    public static final Item LAVA_CHARM = register("lava_charm", new Item(new FabricItemSettings().fireproof().maxCount(1)) {
+        @Override
+        public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+            for (String line : Text.translatable("item.simplyboots.lava_charm.tooltip").getString().split("\n")) {
+                tooltip.add(Text.of(line));
+            }
+        }
+    });
 
     private static Item register(String name, Item item) {
         Registry.register(Registries.ITEM, SimplyBootsHelpers.id(name), item);
