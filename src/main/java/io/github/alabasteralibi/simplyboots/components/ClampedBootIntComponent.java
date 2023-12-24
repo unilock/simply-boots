@@ -5,6 +5,7 @@ import dev.onyxstudios.cca.api.v3.component.Component;
 public interface ClampedBootIntComponent extends Component {
     /**
      * Gets this component's value.
+     *
      * @return An integer representing the current value of the component.
      */
     int getValue();

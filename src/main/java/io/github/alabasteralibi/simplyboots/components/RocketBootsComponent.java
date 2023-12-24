@@ -8,8 +8,6 @@ import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
@@ -52,8 +50,15 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
         BootComponents.ROCKET_BOOTS.sync(player);
     }
 
-    @Override public void readFromNbt(NbtCompound tag) { rocketTicks = tag.getInt("rocketTicks"); }
-    @Override public void writeToNbt(NbtCompound tag) { tag.putInt("rocketTicks", rocketTicks); }
+    @Override
+    public void readFromNbt(NbtCompound tag) {
+        rocketTicks = tag.getInt("rocketTicks");
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag) {
+        tag.putInt("rocketTicks", rocketTicks);
+    }
 
     @Override
     public void serverTick() {
@@ -77,7 +82,9 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 } else {
                     ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
 
-                    if (player.isOnGround()) { return; }
+                    if (player.isOnGround()) {
+                        return;
+                    }
 
                     ClampedBootIntComponent rocketTicks = BootComponents.ROCKET_BOOTS.get(player);
                     if (rocketTicks.getValue() == 0) {
@@ -102,8 +109,12 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
             }
             if (stillHoldingSpace && !elytraStart && !sentBoost) {
                 ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
-                if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) { return; }
-                if (player.isOnGround()) { return; }
+                if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) {
+                    return;
+                }
+                if (player.isOnGround()) {
+                    return;
+                }
 
                 ClampedBootIntComponent rocketTicks = BootComponents.ROCKET_BOOTS.get(player);
                 if (rocketTicks.getValue() == 0) {

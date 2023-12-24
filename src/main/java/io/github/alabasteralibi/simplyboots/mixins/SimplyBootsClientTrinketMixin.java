@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems.*;
-import static io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems.TERRASPARK_BOOTS;
 
 @Mixin(SimplyBootsClient.class)
 public abstract class SimplyBootsClientTrinketMixin implements ClientModInitializer {

@@ -39,8 +39,15 @@ public class LavaBootsComponent implements ClampedBootIntComponent, ServerTickin
         BootComponents.LAVA_BOOTS.sync(entity);
     }
 
-    @Override public void readFromNbt(NbtCompound tag) { lavaTicks = tag.getInt("lavaTicks"); }
-    @Override public void writeToNbt(NbtCompound tag) { tag.putInt("lavaTicks", lavaTicks); }
+    @Override
+    public void readFromNbt(NbtCompound tag) {
+        lavaTicks = tag.getInt("lavaTicks");
+    }
+
+    @Override
+    public void writeToNbt(NbtCompound tag) {
+        tag.putInt("lavaTicks", lavaTicks);
+    }
 
     @Override
     public void serverTick() {

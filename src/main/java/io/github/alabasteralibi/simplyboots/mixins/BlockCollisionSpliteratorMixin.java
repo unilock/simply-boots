@@ -51,13 +51,23 @@ public class BlockCollisionSpliteratorMixin<T> {
     // Intercepts the vanilla code for colliding with blocks, making it treat fluids as solid in the right circumstances.
     @Inject(method = "computeNext", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void computeNext(CallbackInfoReturnable<T> cir, int i, int j, int k, int l, BlockView blockView) {
-        if (this.entity == null || !(this.entity instanceof LivingEntity entity)) { return; }
-        if (entity.getVelocity().getY() >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER, 0) || entity.isSneaking()) { return; }
-        if (!SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FLUID_WALKING_BOOTS)) { return; }
+        if (this.entity == null || !(this.entity instanceof LivingEntity entity)) {
+            return;
+        }
+        if (entity.getVelocity().getY() >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER, 0) || entity.isSneaking()) {
+            return;
+        }
+        if (!SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
+            return;
+        }
 
         FluidState fluidState = blockView.getFluidState(new BlockPos(i, j, k));
-        if (fluidState.isIn(FluidTags.LAVA) && !SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) { return; }
-        if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) { return; }
+        if (fluidState.isIn(FluidTags.LAVA) && !SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+            return;
+        }
+        if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) {
+            return;
+        }
 
         if ((entity.getY() + (entity.isOnGround() ? entity.getStepHeight() : 0)) - (j + fluidState.getHeight()) >= -1E-6) { // Epsilon
             VoxelShape voxelShape = fluidState.getShape(blockView, this.pos).offset(i, j, k);

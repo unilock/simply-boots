@@ -1,9 +1,7 @@
 package io.github.alabasteralibi.simplyboots.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.client.TrinketRenderer;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
