@@ -3,7 +3,7 @@ package io.github.alabasteralibi.simplyboots.items;
 import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import dev.emi.trinkets.api.SlotReference;
-import io.github.alabasteralibi.simplyboots.client.BootRenderer;
+import io.github.alabasteralibi.simplyboots.client.BootArmorRenderer;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
@@ -44,12 +44,12 @@ public class BootItems {
         @Override
         public void createRenderer(Consumer<Object> consumer) {
             consumer.accept(new RenderProvider() {
-                private BootRenderer renderer;
+                private BootArmorRenderer renderer;
 
                 @Override
                 public BipedEntityModel<LivingEntity> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, BipedEntityModel<LivingEntity> original) {
                     if (this.renderer == null)
-                        this.renderer = new BootRenderer();
+                        this.renderer = new BootArmorRenderer();
 
                     this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
 
