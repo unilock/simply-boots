@@ -4,7 +4,6 @@ import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import dev.emi.trinkets.api.SlotReference;
 import io.github.alabasteralibi.simplyboots.client.BootArmorRenderer;
-import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -74,10 +73,14 @@ public class BootItems {
         }
 
         // Prevents equipping boots if a pair is already equipped as armor.
+        // THIS HAS BEEN DISABLED, as I cannot figure out how to prevent equipping boots
+        // *in the armor slot* if a pair is already equipped *as a trinket.*
+        /*
         @Override
         public boolean canEquip(ItemStack stack, SlotReference slot, LivingEntity entity) {
             return !entity.getEquippedStack(EquipmentSlot.FEET).isIn(SimplyBootsTags.BOOTS);
         }
+         */
 
         @Override
         public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
