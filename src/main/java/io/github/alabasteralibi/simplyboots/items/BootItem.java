@@ -3,7 +3,7 @@ package io.github.alabasteralibi.simplyboots.items;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
-import io.github.alabasteralibi.simplyboots.client.BootRenderer;
+import io.github.alabasteralibi.simplyboots.client.BootArmorRenderer;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -15,7 +15,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -50,12 +49,12 @@ public class BootItem extends ArmorItem implements GeoItem {
     @Override
     public void createRenderer(Consumer<Object> consumer) {
         consumer.accept(new RenderProvider() {
-            private BootRenderer renderer;
+            private BootArmorRenderer renderer;
 
             @Override
             public BipedEntityModel<LivingEntity> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, BipedEntityModel<LivingEntity> original) {
                 if (this.renderer == null) {
-                    this.renderer = new BootRenderer();
+                    this.renderer = new BootArmorRenderer();
                 }
 
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
