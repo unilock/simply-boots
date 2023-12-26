@@ -6,6 +6,7 @@ import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -13,21 +14,20 @@ import net.minecraft.util.Identifier;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SimplyBootsHelpers {
-    public static boolean wearingBoots(LivingEntity entity, Item boots) {
-        if (boots.equals(entity.getEquippedStack(EquipmentSlot.FEET).getItem())) {
-            return true;
-        } else if (!SimplyBootsHelpers.isTrinketsLoaded()) {
-            return false;
-        }
-        AtomicBoolean bl = new AtomicBoolean(false);
-        TrinketsApi.getTrinketComponent(entity).ifPresent(component -> bl.set(component.isEquipped(boots)));
-        return bl.get();
+    public static boolean wearingBoots(LivingEntity entity, TagKey<Item> tag) {
+        return entity.getEquippedStack(EquipmentSlot.FEET).isIn(tag) ||
+                wearingTrinketBoots(entity, tag);
     }
 
-    public static boolean wearingBoots(LivingEntity entity, TagKey<Item> tag) {
-        if (entity.getEquippedStack(EquipmentSlot.FEET).isIn(tag)) {
-            return true;
-        } else if (!SimplyBootsHelpers.isTrinketsLoaded()) {
+    /**
+     * Determine whether an entity is wearing the Trinket form of the given tag's boots.
+     * Safe to call even when Trinkets is not loaded.
+     * @param entity The entity to check for wearing boots.
+     * @param tag An item tag specifying what boots to check for.
+     * @return Whether entity is wearing any of the boots in tag, as a Trinket.
+     */
+    public static boolean wearingTrinketBoots(LivingEntity entity, TagKey<Item> tag) {
+        if (!SimplyBootsHelpers.isTrinketsLoaded()) {
             return false;
         }
         AtomicBoolean bl = new AtomicBoolean(false);

@@ -20,7 +20,7 @@ public abstract class PlayerScreenHandlerMixin extends Slot {
     private boolean preventDoubleEquip(boolean original, ItemStack stack) {
         if (inventory instanceof PlayerInventory playerInventory &&
                 stack.isIn(SimplyBootsTags.BOOTS) &&
-                SimplyBootsHelpers.wearingBoots(playerInventory.player, SimplyBootsTags.BOOTS)) {
+                SimplyBootsHelpers.wearingTrinketBoots(playerInventory.player, SimplyBootsTags.BOOTS)) {
             return false;
         } else {
             return original;
