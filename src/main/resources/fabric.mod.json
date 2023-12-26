@@ -8,6 +8,14 @@
   "authors": [
     "AlabasterAlibi"
   ],
+  "contributors": [
+    {
+      "name": "unilock",
+      "contact": {
+        "homepage": "https://github.com/unilock"
+      }
+    }
+  ],
   "contact": {
     "sources": "https://github.com/AlabasterAlibi/simply-boots"
   },
