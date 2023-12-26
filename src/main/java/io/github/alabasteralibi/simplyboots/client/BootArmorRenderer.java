@@ -4,8 +4,8 @@ import io.github.alabasteralibi.simplyboots.items.BootItem;
 import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
-public class BootRenderer extends GeoArmorRenderer<BootItem> {
-    public BootRenderer() {
+public class BootArmorRenderer extends GeoArmorRenderer<BootItem> {
+    public BootArmorRenderer() {
         super(new BootModel());
     }
 
