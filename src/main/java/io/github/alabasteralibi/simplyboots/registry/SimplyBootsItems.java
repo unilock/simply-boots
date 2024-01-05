@@ -1,7 +1,7 @@
 package io.github.alabasteralibi.simplyboots.registry;
 
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
-import io.github.alabasteralibi.simplyboots.SimplyBootsTrinketsDelegate;
+import io.github.alabasteralibi.simplyboots.compat.trinkets.SimplyBootsTrinketsDelegate;
 import io.github.alabasteralibi.simplyboots.items.BootItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;

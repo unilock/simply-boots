@@ -1,7 +1,7 @@
-package io.github.alabasteralibi.simplyboots;
+package io.github.alabasteralibi.simplyboots.compat.trinkets;
 
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
-import io.github.alabasteralibi.simplyboots.client.BootTrinketRenderer;
+import io.github.alabasteralibi.simplyboots.compat.trinkets.client.BootTrinketRenderer;
 
 import static io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems.*;
 

@@ -1,4 +1,4 @@
-package io.github.alabasteralibi.simplyboots;
+package io.github.alabasteralibi.simplyboots.compat.trinkets;
 
 import com.google.common.collect.Multimap;
 import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
