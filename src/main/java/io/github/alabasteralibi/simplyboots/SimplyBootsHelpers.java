@@ -14,6 +14,8 @@ import net.minecraft.util.Identifier;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SimplyBootsHelpers {
+    public static final boolean TRINKETS_LOADED = FabricLoader.getInstance().isModLoaded("trinkets");
+
     public static boolean wearingBoots(LivingEntity entity, TagKey<Item> tag) {
         return entity.getEquippedStack(EquipmentSlot.FEET).isIn(tag) ||
                 wearingTrinketBoots(entity, tag);
@@ -27,7 +29,7 @@ public class SimplyBootsHelpers {
      * @return Whether entity is wearing any of the boots in tag, as a Trinket.
      */
     public static boolean wearingTrinketBoots(LivingEntity entity, TagKey<Item> tag) {
-        if (!SimplyBootsHelpers.isTrinketsLoaded()) {
+        if (!SimplyBootsHelpers.TRINKETS_LOADED) {
             return false;
         }
         AtomicBoolean bl = new AtomicBoolean(false);
@@ -43,10 +45,6 @@ public class SimplyBootsHelpers {
     public static boolean isFireImmune(LivingEntity entity) {
         return SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FIRE_RESISTANT_BOOTS) ||
                 entity.isHolding(SimplyBootsItems.LAVA_CHARM);
-    }
-
-    public static boolean isTrinketsLoaded() {
-        return FabricLoader.getInstance().isModLoaded("trinkets");
     }
 
     public static Identifier id(String path) {

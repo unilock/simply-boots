@@ -24,6 +24,10 @@ public class SimplyBootsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        if (SimplyBootsHelpers.TRINKETS_LOADED) {
+            SimplyBootsTrinketsDelegateClient.registerRenderers();
+        }
+
         HudRenderCallback.EVENT.register(this::setupHudAdditions);
     }
 
