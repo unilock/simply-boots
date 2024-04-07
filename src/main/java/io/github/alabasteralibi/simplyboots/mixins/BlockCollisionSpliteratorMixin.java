@@ -1,5 +1,6 @@
 package io.github.alabasteralibi.simplyboots.mixins;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.minecraft.entity.Entity;
@@ -22,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.BiFunction;
 
@@ -49,30 +49,30 @@ public class BlockCollisionSpliteratorMixin<T> {
     }
 
     // Intercepts the vanilla code for colliding with blocks, making it treat fluids as solid in the right circumstances.
-    @Inject(method = "computeNext", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    private void computeNext(CallbackInfoReturnable<T> cir, int i, int j, int k, int l, BlockView blockView) {
-        if (this.entity == null || !(this.entity instanceof LivingEntity entity)) {
+    @Inject(method = "computeNext", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/BlockView;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), cancellable = true)
+    private void computeNext(CallbackInfoReturnable<T> cir, @Local BlockView blockView) {
+        if (this.entity == null || !(this.entity instanceof LivingEntity living)) {
             return;
         }
-        if (entity.getVelocity().getY() >= 0 || entity.updateMovementInFluid(FluidTags.LAVA, 0) || entity.updateMovementInFluid(FluidTags.WATER, 0) || entity.isSneaking()) {
+        if (living.getVelocity().getY() >= 0 || living.isTouchingWater() || living.isInLava() || living.isSneaking()) {
             return;
         }
-        if (!SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
-            return;
-        }
-
-        FluidState fluidState = blockView.getFluidState(new BlockPos(i, j, k));
-        if (fluidState.isIn(FluidTags.LAVA) && !SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
-            return;
-        }
-        if (fluidState.isEmpty() || !blockView.getFluidState(new BlockPos(i, j + 1, k)).isEmpty()) {
+        if (!SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
             return;
         }
 
-        if ((entity.getY() + (entity.isOnGround() ? entity.getStepHeight() : 0)) - (j + fluidState.getHeight()) >= -1E-6) { // Epsilon
-            VoxelShape voxelShape = fluidState.getShape(blockView, this.pos).offset(i, j, k);
+        FluidState fluidState = blockView.getFluidState(this.pos);
+        if (fluidState.isIn(FluidTags.LAVA) && !SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+            return;
+        }
+        if (fluidState.isEmpty() || !blockView.getFluidState(this.pos.up()).isEmpty()) {
+            return;
+        }
+
+        if ((living.getY() + (living.isOnGround() ? living.getStepHeight() : 0)) - (this.pos.getY() + fluidState.getHeight()) >= -1E-6) { // Epsilon
+            VoxelShape voxelShape = fluidState.getShape(blockView, this.pos).offset(this.pos.getX(), this.pos.getY(), this.pos.getZ());
             if (VoxelShapes.matchesAnywhere(voxelShape, this.boxShape, BooleanBiFunction.AND)) {
-                entity.fallDistance = 0.0F;
+                living.fallDistance = 0.0F;
                 cir.setReturnValue(this.resultFunction.apply(this.pos, voxelShape));
             }
         }
