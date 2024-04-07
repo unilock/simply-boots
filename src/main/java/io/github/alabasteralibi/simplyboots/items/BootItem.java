@@ -84,13 +84,13 @@ public class BootItem extends ArmorItem implements GeoItem {
         Multimap<EntityAttribute, EntityAttributeModifier> modifiers = HashMultimap.create(super.getAttributeModifiers(slot));
         if (slot == this.type.getEquipmentSlot()) {
             UUID uUID = UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B");
-            if (this.getRegistryEntry().isIn(SimplyBootsTags.BOOTS)) {
+            if (this.getDefaultStack().isIn(SimplyBootsTags.BOOTS)) {
                 modifiers.put(StepHeightEntityAttributeMain.STEP_HEIGHT, new EntityAttributeModifier(uUID, "Step height", 0.75, EntityAttributeModifier.Operation.ADDITION));
             }
-            if (this.getRegistryEntry().isIn(SimplyBootsTags.SPEEDY_BOOTS)) {
+            if (this.getDefaultStack().isIn(SimplyBootsTags.SPEEDY_BOOTS)) {
                 modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.075, EntityAttributeModifier.Operation.MULTIPLY_BASE));
             }
-            if (this.getRegistryEntry().isIn(SimplyBootsTags.EXTRA_SPEEDY_BOOTS)) {
+            if (this.getDefaultStack().isIn(SimplyBootsTags.EXTRA_SPEEDY_BOOTS)) {
                 modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uUID, "Movement speed", 0.15, EntityAttributeModifier.Operation.MULTIPLY_BASE));
             }
         }
