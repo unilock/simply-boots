@@ -16,8 +16,7 @@ public abstract class EntityMixin {
     // Allows spectre boots to upgrade into lightning boots, and makes lightning boots invincible to lightning (but not fire!)
     @Inject(method = "onStruckByLightning", at = @At(value = "HEAD"), cancellable = true)
     private void upgradeSpectreBootsOnLightningStrike(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof ItemEntity item) {
+        if ((Object) this instanceof ItemEntity item) {
             if (item.getStack().getItem() == SimplyBootsItems.SPECTRE_BOOTS) {
                 ItemStack newStack = new ItemStack(SimplyBootsItems.LIGHTNING_BOOTS);
                 newStack.setNbt(item.getStack().getNbt());
