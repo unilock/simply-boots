@@ -1,5 +1,6 @@
 package io.github.alabasteralibi.simplyboots;
 
+import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
 import io.github.alabasteralibi.simplyboots.components.BootComponents;
 import io.github.alabasteralibi.simplyboots.components.ClampedBootIntComponent;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
@@ -22,6 +23,7 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -77,6 +79,21 @@ public class SimplyBoots implements ModInitializer {
                         player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
                     }
                 });
+
+        LivingFluidCollisionCallback.EVENT.register((living, fluidState) -> {
+            if (living.isTouchingWater() || living.isInLava() || living.isSneaking() || living.isSwimming()) {
+                return false;
+            }
+
+            if (fluidState.isIn(FluidTags.WATER) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
+                return true;
+            }
+            if (fluidState.isIn(FluidTags.LAVA) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void setupLootTableAdditions(ResourceManager resourceManager, LootManager lootManager, Identifier id, LootTable.Builder tableBuilder, LootTableSource source) {
