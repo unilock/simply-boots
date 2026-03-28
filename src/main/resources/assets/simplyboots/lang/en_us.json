@@ -23,7 +23,5 @@
   "item.simplyboots.obsidian_water_walking_boots.tooltip": "Provides the ability to walk on water.\nGrants fire resistance.",
   "item.simplyboots.lava_charm.tooltip": "When held, grants fire resistance and\n7 seconds of lava immunity.",
   "item.simplyboots.lava_waders.tooltip": "Provides the ability to walk on water and lava.\nGrants fire resistance and\n7 seconds of lava immunity.",
-  "item.simplyboots.terraspark_boots.tooltip": "Allows faster movement, limited flight,\nElytra boosting, and extra mobility on ice.\nProvides the ability to walk on water and lava.\nGrants fire resistance and\n7 seconds of lava immunity.",
-
-  "attribute.name.generic.step_height": "Step Height"
+  "item.simplyboots.terraspark_boots.tooltip": "Allows faster movement, limited flight,\nElytra boosting, and extra mobility on ice.\nProvides the ability to walk on water and lava.\nGrants fire resistance and\n7 seconds of lava immunity."
 }
