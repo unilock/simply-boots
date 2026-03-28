@@ -9,7 +9,8 @@
     "EquipmentMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerScreenHandlerMixin"
+    "PlayerScreenHandlerMixin",
+    "PlayerScreenHandlerSlotMixin"
   ],
   "client": [
     "InGameOverlayRendererMixin"

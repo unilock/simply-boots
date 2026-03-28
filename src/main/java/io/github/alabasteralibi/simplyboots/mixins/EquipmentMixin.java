@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Equipment.class)
 public interface EquipmentMixin {
     @Inject(method = "equipAndSwap", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getEquippedStack(Lnet/minecraft/entity/EquipmentSlot;)Lnet/minecraft/item/ItemStack;"), cancellable = true)
-    private void stopDoubleEquip(Item item, World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir, @Local(ordinal = 0) ItemStack handStack) {
+    private void preventDoubleBootsEquip(Item item, World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir, @Local(ordinal = 0) ItemStack handStack) {
         if (handStack.isIn(SimplyBootsTags.BOOTS) && SimplyBootsHelpers.wearingBoots(user, SimplyBootsTags.BOOTS)) {
             cir.setReturnValue(TypedActionResult.fail(handStack));
         }

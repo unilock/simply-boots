@@ -40,7 +40,7 @@ public abstract class PlayerEntityMixin {
     }
 
     @ModifyReturnValue(method = "canEquip", at = @At("RETURN"))
-    private boolean preventDoubleBootEquip(boolean original, ItemStack stack) {
+    private boolean preventDoubleBootsEquip(boolean original, ItemStack stack) {
         if (stack.isIn(SimplyBootsTags.BOOTS) && SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.BOOTS)) {
             return false;
         } else {
