@@ -2,6 +2,7 @@ package io.github.alabasteralibi.simplyboots.client;
 
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import io.github.alabasteralibi.simplyboots.items.BootItem;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib.model.GeoModel;
 
@@ -13,7 +14,7 @@ public class BootModel extends GeoModel<BootItem> {
 
     @Override
     public Identifier getTextureResource(BootItem animatable) {
-        return SimplyBootsHelpers.id("textures/armor/" + animatable.toString() + ".png");
+        return SimplyBootsHelpers.id("textures/armor/" + Registries.ITEM.getId(animatable).getPath() + ".png");
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.alabasteralibi.simplyboots.client;
 
 import io.github.alabasteralibi.simplyboots.items.BootItem;
 import software.bernie.geckolib.cache.object.GeoBone;
+import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoArmorRenderer;
 
 public class BootArmorRenderer extends GeoArmorRenderer<BootItem> {
@@ -10,22 +11,22 @@ public class BootArmorRenderer extends GeoArmorRenderer<BootItem> {
     }
 
     @Override
-    public GeoBone getRightLegBone() {
-        return this.model.getBone("rightLeg").orElse(null);
+    public GeoBone getRightLegBone(GeoModel<BootItem> model) {
+        return model.getBone("rightLeg").orElse(null);
     }
 
     @Override
-    public GeoBone getLeftLegBone() {
-        return this.model.getBone("leftLeg").orElse(null);
+    public GeoBone getLeftLegBone(GeoModel<BootItem> model) {
+        return model.getBone("leftLeg").orElse(null);
     }
 
     @Override
-    public GeoBone getRightBootBone() {
-        return this.model.getBone("rightBoot").orElse(null);
+    public GeoBone getRightBootBone(GeoModel<BootItem> model) {
+        return model.getBone("rightBoot").orElse(null);
     }
 
     @Override
-    public GeoBone getLeftBootBone() {
-        return this.model.getBone("leftBoot").orElse(null);
+    public GeoBone getLeftBootBone(GeoModel<BootItem> model) {
+        return model.getBone("leftBoot").orElse(null);
     }
 }

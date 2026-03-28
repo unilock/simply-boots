@@ -25,6 +25,7 @@ public class BootTrinketRenderer implements TrinketRenderer {
         if (this.renderer == null) {
             this.renderer = new BootArmorRenderer();
         }
+        // TODO: deprecation?
         renderer.prepForRender(entity, stack, EquipmentSlot.FEET, (BipedEntityModel<?>) contextModel);
         renderer.defaultRender(matrices, renderer.getAnimatable(), vertexConsumers, null, vertexConsumers.getBuffer(RenderLayer.getArmorCutoutNoCull(renderer.getTextureLocation(renderer.getAnimatable()))), 0, tickDelta, light);
     }

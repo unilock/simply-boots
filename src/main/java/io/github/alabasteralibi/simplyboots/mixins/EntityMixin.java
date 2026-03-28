@@ -18,8 +18,7 @@ public abstract class EntityMixin {
     private void upgradeSpectreBootsOnLightningStrike(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
         if ((Object) this instanceof ItemEntity item) {
             if (item.getStack().getItem() == SimplyBootsItems.SPECTRE_BOOTS) {
-                ItemStack newStack = new ItemStack(SimplyBootsItems.LIGHTNING_BOOTS);
-                newStack.setNbt(item.getStack().getNbt());
+                ItemStack newStack = item.getStack().copyComponentsToNewStack(SimplyBootsItems.LIGHTNING_BOOTS, 1);
                 world.spawnEntity(new ItemEntity(world, item.getX(), item.getY(), item.getZ(), newStack));
                 item.remove(Entity.RemovalReason.DISCARDED);
                 ci.cancel();

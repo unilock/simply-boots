@@ -4,12 +4,12 @@
   "package": "io.github.alabasteralibi.simplyboots.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ArmorSlotMixin",
     "EntityMixin",
     "EquipmentMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
-    "PlayerScreenHandlerMixin",
-    "PlayerScreenHandlerSlotMixin"
+    "PlayerScreenHandlerMixin"
   ],
   "client": [
     "InGameOverlayRendererMixin"

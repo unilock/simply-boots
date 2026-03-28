@@ -1,16 +1,17 @@
 package io.github.alabasteralibi.simplyboots.components;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
+import io.github.alabasteralibi.simplyboots.networking.RocketBoostC2SPayload;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.Vec3d;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
+import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 public class RocketBootsComponent implements ClampedBootIntComponent, ClientTickingComponent, ServerTickingComponent, AutoSyncedComponent {
     private int rocketTicks = 0;
@@ -51,12 +52,12 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
         rocketTicks = tag.getInt("rocketTicks");
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
         tag.putInt("rocketTicks", rocketTicks);
     }
 
@@ -80,7 +81,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 if (!flyingLastTick && flyingThisTick) {
                     elytraStart = true;
                 } else {
-                    ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
+                    ClientPlayNetworking.send(RocketBoostC2SPayload.INSTANCE);
 
                     if (player.isOnGround()) {
                         return;
@@ -108,7 +109,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 stillHoldingSpace = false;
             }
             if (stillHoldingSpace && !elytraStart && !sentBoost) {
-                ClientPlayNetworking.send(SimplyBootsHelpers.id("rocket_boost"), PacketByteBufs.empty());
+                ClientPlayNetworking.send(RocketBoostC2SPayload.INSTANCE);
                 if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) {
                     return;
                 }

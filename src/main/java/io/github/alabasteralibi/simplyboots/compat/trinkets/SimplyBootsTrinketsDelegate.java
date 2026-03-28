@@ -1,7 +1,6 @@
 package io.github.alabasteralibi.simplyboots.compat.trinkets;
 
 import com.google.common.collect.Multimap;
-import dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -13,10 +12,10 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 
-import java.util.UUID;
-
-import static io.github.alabasteralibi.simplyboots.items.BootItem.STEP_BOOST_MODIFIER;
+import static io.github.alabasteralibi.simplyboots.items.BootItem.*;
 
 public class SimplyBootsTrinketsDelegate {
     public static void registerItem(Item item) {
@@ -28,14 +27,14 @@ public class SimplyBootsTrinketsDelegate {
             }
 
             @Override
-            public Multimap<EntityAttribute, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, UUID uuid) {
-                Multimap<EntityAttribute, EntityAttributeModifier> modifiers = Trinket.super.getModifiers(stack, slot, entity, uuid);
-                modifiers.put(StepHeightEntityAttributeMain.STEP_HEIGHT, STEP_BOOST_MODIFIER);
+            public Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
+                Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifiers =  Trinket.super.getModifiers(stack, slot, entity, slotIdentifier);
+                modifiers.put(EntityAttributes.GENERIC_STEP_HEIGHT, STEP_BOOST_MODIFIER);
                 if (stack.isIn(SimplyBootsTags.SPEEDY_BOOTS)) {
-                    modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uuid, "Movement speed", 0.075, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                    modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, SPEEDY_MODIFIER);
                 }
                 if (stack.isIn(SimplyBootsTags.EXTRA_SPEEDY_BOOTS)) {
-                    modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(uuid, "Movement speed", 0.15, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+                    modifiers.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, EXTRA_SPEEDY_MODIFIER);
                 }
                 return modifiers;
             }

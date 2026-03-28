@@ -1,10 +1,11 @@
 package io.github.alabasteralibi.simplyboots.components;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent;
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 public class LavaBootsComponent implements ClampedBootIntComponent, ServerTickingComponent, AutoSyncedComponent {
     private int lavaTicks = 0;
@@ -40,12 +41,12 @@ public class LavaBootsComponent implements ClampedBootIntComponent, ServerTickin
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag) {
+    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
         lavaTicks = tag.getInt("lavaTicks");
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag) {
+    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup lookup) {
         tag.putInt("lavaTicks", lavaTicks);
     }
 

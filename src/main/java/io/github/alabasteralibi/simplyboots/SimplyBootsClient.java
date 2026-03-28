@@ -13,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.FluidTags;
@@ -33,7 +34,7 @@ public class SimplyBootsClient implements ClientModInitializer {
     }
 
     // Render HUD elements for rocket and lava timers
-    private void setupHudAdditions(DrawContext context, float tickDelta) {
+    private void setupHudAdditions(DrawContext context, RenderTickCounter tickDelta) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
         if (player == null || player.isCreative()) {

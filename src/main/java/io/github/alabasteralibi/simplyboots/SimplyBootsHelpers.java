@@ -52,6 +52,6 @@ public class SimplyBootsHelpers {
     }
 
     public static Identifier id(String path) {
-        return new Identifier("simplyboots", path);
+        return Identifier.of("simplyboots", path);
     }
 }

@@ -27,13 +27,13 @@ public class LivingEntityMixin {
 
     // Re-adds increased jump speed when jumping off ice while having Frostspark Boots.
     // In testing, this is nearly identical to how it normally boosts jumping.
-    @ModifyConstant(method = "jump", constant = @Constant(floatValue = 0.2F))
-    private float increaseJumpSpeedIfWearingFrostsparkBoots(float f) {
+    @ModifyConstant(method = "jump", constant = @Constant(doubleValue = 0.2))
+    private double increaseJumpSpeedIfWearingFrostsparkBoots(double d) {
         BlockPos velocityAffectingPos = new BlockPos((int) entity.getX(), (int) (entity.getBoundingBox().minY - 0.5), (int) entity.getZ());
         float slipperiness = entity.getWorld().getBlockState(velocityAffectingPos).getBlock().getSlipperiness();
         if (SimplyBootsHelpers.wearingBoots(entity, SimplyBootsTags.ICE_SKATE_BOOTS) && slipperiness != 0.6F) {
-            return f + (slipperiness / 8);
+            return d + (slipperiness / 8);
         }
-        return f;
+        return d;
     }
 }

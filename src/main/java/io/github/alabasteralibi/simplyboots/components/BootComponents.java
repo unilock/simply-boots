@@ -1,11 +1,11 @@
 package io.github.alabasteralibi.simplyboots.components;
 
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import io.github.alabasteralibi.simplyboots.SimplyBootsHelpers;
 import net.minecraft.entity.player.PlayerEntity;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
+import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 
 public class BootComponents implements EntityComponentInitializer {
     public static final ComponentKey<RocketBootsComponent> ROCKET_BOOTS =
