@@ -1,20 +1,25 @@
 package io.github.alabasteralibi.simplyboots;
 
 import be.florens.expandability.api.fabric.LivingFluidCollisionCallback;
+import be.florens.expandability.api.forge.LivingFluidCollisionEvent;
 import io.github.alabasteralibi.simplyboots.components.BootComponents;
 import io.github.alabasteralibi.simplyboots.components.ClampedBootIntComponent;
 import io.github.alabasteralibi.simplyboots.networking.RocketBoostC2SPayload;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableSource;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -33,6 +38,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.Optional;
 
@@ -88,20 +94,17 @@ public class SimplyBoots implements ModInitializer {
                     }
                 });
 
-        LivingFluidCollisionCallback.EVENT.register((living, fluidState) -> {
-            if (living.isTouchingWater() || living.isInLava() || living.isSneaking() || living.isSwimming()) {
-                return false;
-            }
-
-            if (fluidState.isIn(FluidTags.WATER) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
-                return true;
-            }
-            if (fluidState.isIn(FluidTags.LAVA) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
-                return true;
-            }
-
-            return false;
-        });
+        if (FabricLoader.getInstance().isModLoaded("connector")) {
+            ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+                NeoForge.EVENT_BUS.addListener(LivingFluidCollisionEvent.class, event -> {
+                    if (this.fluidCollisionCallback(event.getEntity(), event.getFluidState())) {
+                        event.setColliding(true);
+                    }
+                });
+            });
+        } else {
+            LivingFluidCollisionCallback.EVENT.register(this::fluidCollisionCallback);
+        }
     }
 
     private void setupLootTableAdditions(RegistryKey<LootTable> key, LootTable.Builder tableBuilder, LootTableSource source, RegistryWrapper.WrapperLookup lookup) {
@@ -145,5 +148,20 @@ public class SimplyBoots implements ModInitializer {
                 tableBuilder.pool(pool);
             }
         }
+    }
+    
+    private boolean fluidCollisionCallback(LivingEntity living, FluidState fluidState) {
+        if (living.isTouchingWater() || living.isInLava() || living.isSneaking() || living.isSwimming()) {
+            return false;
+        }
+
+        if (fluidState.isIn(FluidTags.WATER) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.FLUID_WALKING_BOOTS)) {
+            return true;
+        }
+        if (fluidState.isIn(FluidTags.LAVA) && SimplyBootsHelpers.wearingBoots(living, SimplyBootsTags.HOT_FLUID_WALKING_BOOTS)) {
+            return true;
+        }
+
+        return false;
     }
 }

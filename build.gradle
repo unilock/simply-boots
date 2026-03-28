@@ -95,3 +95,12 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+sourceSets {
+	dummy {
+		compileClasspath += configurations.compileClasspath
+	}
+	main {
+		compileClasspath += dummy.output
+	}
+}
