@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "simplyboots:ice_skates"
+  },
+  "base": {
+    "item": "simplyboots:lightning_boots"
+  },
+  "result": {
+    "count": 1,
+    "id": "simplyboots:frostspark_boots"
+  },
+  "template": []
+}

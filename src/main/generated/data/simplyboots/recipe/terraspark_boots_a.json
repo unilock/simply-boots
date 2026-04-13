@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "simplyboots:lava_waders"
+  },
+  "base": {
+    "item": "simplyboots:frostspark_boots"
+  },
+  "result": {
+    "count": 1,
+    "id": "simplyboots:terraspark_boots"
+  },
+  "template": []
+}

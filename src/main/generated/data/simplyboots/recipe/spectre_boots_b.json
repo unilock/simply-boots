@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "simplyboots:hermes_boots"
+  },
+  "base": {
+    "item": "simplyboots:rocket_boots"
+  },
+  "result": {
+    "count": 1,
+    "id": "simplyboots:spectre_boots"
+  },
+  "template": []
+}

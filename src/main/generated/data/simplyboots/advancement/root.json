@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": "Good luck finding all of the boots!",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:leather_boots"
+    },
+    "show_toast": false,
+    "title": "Simply Boots"
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
