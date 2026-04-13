@@ -25,6 +25,9 @@
 
   "environment": "*",
   "entrypoints": {
+    "fabric-datagen": [
+      "io.github.alabasteralibi.simplyboots.data.SimplyBootsData"
+    ],
     "main": [
       "io.github.alabasteralibi.simplyboots.SimplyBoots"
     ],

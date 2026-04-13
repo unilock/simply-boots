@@ -52,6 +52,6 @@ public class SimplyBootsHelpers {
     }
 
     public static Identifier id(String path) {
-        return Identifier.of("simplyboots", path);
+        return Identifier.of(SimplyBoots.MOD_ID, path);
     }
 }

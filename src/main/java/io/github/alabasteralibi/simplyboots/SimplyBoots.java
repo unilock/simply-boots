@@ -43,6 +43,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import java.util.Optional;
 
 public class SimplyBoots implements ModInitializer {
+    public static final String MOD_ID = "simplyboots";
+
     public static final ItemGroup MAIN_GROUP = Registry.register(
             Registries.ITEM_GROUP,
             SimplyBootsHelpers.id("main_group"),
