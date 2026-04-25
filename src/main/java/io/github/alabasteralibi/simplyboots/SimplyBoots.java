@@ -110,45 +110,43 @@ public class SimplyBoots implements ModInitializer {
     }
 
     private void setupLootTableAdditions(RegistryKey<LootTable> key, LootTable.Builder tableBuilder, LootTableSource source, RegistryWrapper.WrapperLookup lookup) {
-        if (source.isBuiltin()) {
-            if (key.equals(LootTables.SIMPLE_DUNGEON_CHEST)) {
-                LootPool.Builder pool = LootPool.builder()
-                        .with(ItemEntry.builder(SimplyBootsItems.HERMES_BOOTS).weight(1))
-                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+        if (LootTables.SIMPLE_DUNGEON_CHEST.equals(key)) {
+            LootPool.Builder pool = LootPool.builder()
+                    .with(ItemEntry.builder(SimplyBootsItems.HERMES_BOOTS).weight(1))
+                    .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
 
-                tableBuilder.pool(pool);
-            }
+            tableBuilder.pool(pool);
+        }
 
-            if (key.equals(LootTables.BURIED_TREASURE_CHEST)) {
-                LootPool.Builder pool = LootPool.builder()
-                        .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
-                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+        if (LootTables.BURIED_TREASURE_CHEST.equals(key)) {
+            LootPool.Builder pool = LootPool.builder()
+                    .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
+                    .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
 
-                tableBuilder.pool(pool);
-            }
+            tableBuilder.pool(pool);
+        }
 
-            if (key.equals(LootTables.SHIPWRECK_TREASURE_CHEST)) {
-                LootPool.Builder pool = LootPool.builder()
-                        .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
-                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(19));
+        if (LootTables.SHIPWRECK_TREASURE_CHEST.equals(key)) {
+            LootPool.Builder pool = LootPool.builder()
+                    .with(ItemEntry.builder(SimplyBootsItems.WATER_WALKING_BOOTS).weight(1))
+                    .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(19));
 
-                tableBuilder.pool(pool);
-            }
+            tableBuilder.pool(pool);
+        }
 
-            if (key.equals(LootTables.IGLOO_CHEST_CHEST)) {
-                LootPool.Builder pool = LootPool.builder()
-                        .with(ItemEntry.builder(SimplyBootsItems.ICE_SKATES));
+        if (LootTables.IGLOO_CHEST_CHEST.equals(key)) {
+            LootPool.Builder pool = LootPool.builder()
+                    .with(ItemEntry.builder(SimplyBootsItems.ICE_SKATES));
 
-                tableBuilder.pool(pool);
-            }
+            tableBuilder.pool(pool);
+        }
 
-            if (key.equals(LootTables.BASTION_TREASURE_CHEST)) {
-                LootPool.Builder pool = LootPool.builder()
-                        .with(ItemEntry.builder(SimplyBootsItems.LAVA_CHARM).weight(1))
-                        .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
+        if (LootTables.BASTION_TREASURE_CHEST.equals(key)) {
+            LootPool.Builder pool = LootPool.builder()
+                    .with(ItemEntry.builder(SimplyBootsItems.LAVA_CHARM).weight(1))
+                    .with(ItemEntry.builder(ItemStack.EMPTY.getItem()).weight(2));
 
-                tableBuilder.pool(pool);
-            }
+            tableBuilder.pool(pool);
         }
     }
     
