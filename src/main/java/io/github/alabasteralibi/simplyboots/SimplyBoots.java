@@ -8,7 +8,7 @@ import io.github.alabasteralibi.simplyboots.networking.RocketBoostC2SPayload;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.loot.v3.LootTableSource;
@@ -97,7 +97,7 @@ public class SimplyBoots implements ModInitializer {
                 });
 
         if (FabricLoader.getInstance().isModLoaded("connector")) {
-            ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            ServerLifecycleEvents.SERVER_STARTING.register(server -> {
                 NeoForge.EVENT_BUS.addListener(LivingFluidCollisionEvent.class, event -> {
                     if (this.fluidCollisionCallback(event.getEntity(), event.getFluidState())) {
                         event.setColliding(true);
