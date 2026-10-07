@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "simplyboots",
   "version": "${version}",
-
   "name": "Simply Boots",
   "description": "Adds multiple Terraria-themed boots.",
   "authors": [
@@ -19,10 +18,8 @@
   "contact": {
     "sources": "https://github.com/AlabasterAlibi/simply-boots"
   },
-
-  "license": "LGPL-3.0",
+  "license": "LGPL-3.0-only",
   "icon": "assets/simplyboots/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
@@ -41,17 +38,15 @@
   "mixins": [
     "simplyboots.mixins.json"
   ],
-
   "depends": {
     "fabricloader": "*",
-    "fabric-api": "*",
     "minecraft": ["1.21","1.21.1"],
+    "fabric-api": "*",
     "geckolib": "*"
   },
   "suggests": {
     "trinkets": "*"
   },
-
   "custom": {
     "cardinal-components": [
       "simplyboots:rocket_boots",

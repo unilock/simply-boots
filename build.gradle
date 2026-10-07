@@ -1,14 +1,8 @@
 plugins {
-	id 'fabric-loom' version "${fabric_loom_version}"
-	id 'maven-publish'
+	id 'net.fabricmc.fabric-loom-remap' version "${fabric_loom_version}"
 }
 
-version = "${project.mod_version}+${project.minecraft_version}+fabric"
-group = project.maven_group
-
-base {
-	archivesName = project.archives_base_name
-}
+version = "${project.version}+${project.minecraft_version}+fabric"
 
 fabricApi {
 	configureDataGeneration()
@@ -16,7 +10,7 @@ fabricApi {
 
 loom {
 	mods {
-		"simplyboots" {
+		'simplyboots' {
 			sourceSet sourceSets.main
 		}
 	}
@@ -55,48 +49,34 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+	def version = project.version
+	inputs.property 'version', version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+	filesMatching('fabric.mod.json') {
+		expand 'version': version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = "UTF-8"
-	it.options.release = 17
+	it.options.encoding = 'UTF-8'
+	it.options.release = 21
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
+	def projectName = project.name
+	inputs.property 'projectName', projectName
 
-	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}" }
-	}
-}
-
-// Configure the maven publication
-publishing {
-	publications {
-		create("mavenJava", MavenPublication) {
-			artifactId = project.archives_base_name
-			from components.java
+	["COPYING", "COPYING.LESSER"].each { license ->
+		from(license) {
+			rename { "${it}_$projectName" }
 		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
 	}
 }
 

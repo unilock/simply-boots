@@ -7,7 +7,9 @@ import io.github.alabasteralibi.simplyboots.components.ClampedBootIntComponent;
 import io.github.alabasteralibi.simplyboots.networking.RocketBoostC2SPayload;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsItems;
 import io.github.alabasteralibi.simplyboots.registry.SimplyBootsTags;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
@@ -97,15 +99,18 @@ public class SimplyBoots implements ModInitializer {
                 });
 
         if (FabricLoader.getInstance().isModLoaded("connector")) {
-            ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-                NeoForge.EVENT_BUS.addListener(LivingFluidCollisionEvent.class, event -> {
-                    if (this.fluidCollisionCallback(event.getEntity(), event.getFluidState())) {
-                        event.setColliding(true);
-                    }
+            if (FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT)) {
+                ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+                    registerNeoForgeEvent();
                 });
-            });
+            }
+            if (FabricLoader.getInstance().getEnvironmentType().equals(EnvType.SERVER)) {
+                ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+                    registerNeoForgeEvent();
+                });
+            }
         } else {
-            LivingFluidCollisionCallback.EVENT.register(this::fluidCollisionCallback);
+            registerFabricEvent();
         }
     }
 
@@ -149,7 +154,19 @@ public class SimplyBoots implements ModInitializer {
             tableBuilder.pool(pool);
         }
     }
-    
+
+    private void registerFabricEvent() {
+        LivingFluidCollisionCallback.EVENT.register(this::fluidCollisionCallback);
+    }
+
+    private void registerNeoForgeEvent() {
+        NeoForge.EVENT_BUS.addListener(LivingFluidCollisionEvent.class, event -> {
+            if (this.fluidCollisionCallback(event.getEntity(), event.getFluidState())) {
+                event.setColliding(true);
+            }
+        });
+    }
+
     private boolean fluidCollisionCallback(LivingEntity living, FluidState fluidState) {
         if (living.isTouchingWater() || living.isInLava() || living.isSneaking() || living.isSwimming()) {
             return false;
