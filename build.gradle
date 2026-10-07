@@ -2,7 +2,7 @@ plugins {
 	id 'net.fabricmc.fabric-loom-remap' version "${fabric_loom_version}"
 }
 
-version = "${project.version}+${project.minecraft_version}+fabric"
+version = "${project.version}+${project.minecraft_version_base}+fabric"
 
 fabricApi {
 	configureDataGeneration()
