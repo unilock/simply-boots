@@ -19,8 +19,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -94,7 +92,10 @@ public class SimplyBoots implements ModInitializer {
                                 vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
                                 vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
                     } else {
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION, 3, 5, true, false, false));
+                        Vec3d vec3d = player.getRotationVector();
+                        player.addVelocity(vec3d.x * 0.05, 0.125, vec3d.z * 0.05);
+                        player.fallDistance = 0;
+                        player.velocityModified = true;
                     }
                 });
 
