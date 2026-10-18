@@ -92,12 +92,14 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                         return;
                     }
 
+                    Vec3d velocity = player.getVelocity();
                     if (player.isFallFlying()) {
-                        Vec3d velocity = player.getVelocity();
                         Vec3d vec3d = player.getRotationVector();
                         player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
                                 vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
                                 vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
+                    } else {
+                        player.setVelocity(velocity.x, Math.min(velocity.y + 0.125, 0.3), velocity.z);
                     }
 
                     elytraStart = false;
@@ -113,6 +115,7 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                 if (!SimplyBootsHelpers.wearingBoots(player, SimplyBootsTags.ROCKET_BOOTS)) {
                     return;
                 }
+
                 if (player.isOnGround()) {
                     return;
                 }
@@ -122,12 +125,14 @@ public class RocketBootsComponent implements ClampedBootIntComponent, ClientTick
                     return;
                 }
 
+                Vec3d velocity = player.getVelocity();
                 if (player.isFallFlying()) {
-                    Vec3d velocity = player.getVelocity();
                     Vec3d vec3d = player.getRotationVector();
                     player.addVelocity(vec3d.x * 0.1D + (vec3d.x * 1.5D - velocity.x) * 0.5D,
                             vec3d.y * 0.1D + (vec3d.y * 1.5D - velocity.y) * 0.5D,
                             vec3d.z * 0.1D + (vec3d.z * 1.5D - velocity.z) * 0.5D);
+                } else {
+                    player.setVelocity(velocity.x, Math.min(velocity.y + 0.125, 0.3), velocity.z);
                 }
             }
 
